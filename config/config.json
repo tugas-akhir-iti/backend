@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "jaenulatif",
-    "password": "jlp_089623176509",
+    "username": "perdly",
+    "password": "root",
     "database": "second_hand",
     "host": "127.0.0.1",
-    "dialect": "postgresql"
+    "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "perdly",
+    "password": "root",
+    "database": "second_hand",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "perdly",
+    "password": "root",
+    "database": "second_hand",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }

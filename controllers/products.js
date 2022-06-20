@@ -13,12 +13,12 @@ async function findAll(req, res) {
 }
 
 async function findById(req, res) {
-  const products = await Products.findByPk(req.params.id);
-  if (products == null) {
+  const product = await Products.findByPk(req.params.id);
+  if (product == null) {
     res.send({ message: "Product tidak ada" });
   } else {
     res.send({
-      data: products,
+      data: product,
     });
   }
 }
@@ -47,7 +47,7 @@ async function update(req, res) {
       category_id: req.body.category_id,
       user_id: req.body.user_id,
     };
-    const updateProduct = await Products.update(product, {
+    await Products.update(product, {
       where: { id: req.params.id },
     });
     res.send({ message: "Data product berhasil diupdate" });
@@ -59,7 +59,7 @@ async function update(req, res) {
 async function destroy(req, res) {
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
-    const removeProduct = await Products.destroy({
+    await Products.destroy({
       where: { id: req.params.id },
     });
     res.send({ message: "Product berhasil dihapus" });

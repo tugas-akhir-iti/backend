@@ -3,6 +3,21 @@ const db = require("../models");
 const jwt = require("jsonwebtoken");
 const Users = db.users;
 
+async function get(req, res) {
+  const user = await Users.findByPk(req.params.id);
+  if (user == null) {
+    res.send({ message: "User tidak ada" });
+  } else {
+    res.send({
+      Foto_Profil: user.user_image,
+      Nama: user.user_name,
+      Kota: user.user_city,
+      Alamat: user.user_address,
+      No_Handphone: user.user_phone,
+    });
+  }
+}
+
 async function create(req, res) {
   const saltRounds = 10;
   const salt = bcrypt.genSaltSync(saltRounds);
@@ -64,4 +79,5 @@ async function login(req, res) {
 module.exports = {
   create,
   login,
+  get,
 };

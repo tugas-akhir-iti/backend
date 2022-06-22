@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       product_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50)
       },
       product_price: {
         type: Sequelize.INTEGER
@@ -17,14 +17,23 @@ module.exports = {
       product_description: {
         type: Sequelize.TEXT
       },
-      product_image: {
-        type: Sequelize.TEXT
-      },
       category_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'categories'
+          },
+          key: 'id',
+        }        
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'users'
+          },
+          key: 'id',
+        }
       },
       createdAt: {
         allowNull: false,

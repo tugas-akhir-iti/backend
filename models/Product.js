@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id'
       });
 
-      Product.hasMany(models.User, {
-        foreignKey: 'user_id'
+      Product.hasMany(models.Image, {
+        foreignKey: 'product_id'
       });
     }
   }

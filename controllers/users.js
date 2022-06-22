@@ -27,6 +27,7 @@ async function create(req, res) {
   const user = {
     user_name: req.body.user_name,
     user_email: req.body.user_email,
+    user_role: req.body.user_role,
     user_password: req.body.user_password,
   };
 
@@ -51,6 +52,7 @@ async function login(req, res) {
           id: isUserExist.id,
           user_name: isUserExist.user_name,
           user_email: isUserExist.user_email,
+          user_role: isUserExist.user_role,
         },
         process.env.TOKEN_SECRET
       );

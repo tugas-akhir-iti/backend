@@ -14,6 +14,18 @@ module.exports = {
          user_role: '1',
          createdAt: new Date(),
          updatedAt: new Date()
+      },
+      {
+         user_name: 'latif',
+         user_email: 'latif@gmail.com',
+         user_password: 'latif123',
+         user_city: 'Bogor',
+         user_address: 'Desa. Jagabita Kec. Parungpanjang',
+         user_phone: '089623176509',
+         user_image: 'latif.png',
+         user_role: '1',
+         createdAt: new Date(),
+         updatedAt: new Date()
       }
     ]);
   },

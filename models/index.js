@@ -35,7 +35,10 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 //load models
-db.users = require('./users.js')(sequelize, Sequelize);
-db.products = require('./products.js')(sequelize, Sequelize);
+db.users = require('./User.js')(sequelize, Sequelize);
+db.products = require('./Product.js')(sequelize, Sequelize);
+db.categories = require('./Category.js')(sequelize, Sequelize);
+db.orders = require('./Order.js')(sequelize, Sequelize);
+db.images = require('./Image.js')(sequelize, Sequelize);
 
 module.exports = db;

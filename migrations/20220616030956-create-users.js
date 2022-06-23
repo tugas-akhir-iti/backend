@@ -9,25 +9,29 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50)
       },
       user_email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50)
       },
       user_password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50)
       },
       user_city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: true
       },
       user_address: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: true
       },
       user_phone: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: true
       },
       user_image: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: true
       },
       user_role: {
         type: Sequelize.INTEGER

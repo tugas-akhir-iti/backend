@@ -1,13 +1,13 @@
 {
   "development": {
-    "username": "latif_project_fsw",
+    "username": "perdly",
     "password": "root",
     "database": "second_hand",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "latif_project_fsw",
+    "username": "perdly",
     "password": "root",
     "database": "second_hand",
     "host": "127.0.0.1",

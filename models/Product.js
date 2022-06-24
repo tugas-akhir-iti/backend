@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id'
       });
 
-      Product.hasMany(models.Image, {
-        foreignKey: 'product_id'
-      });
-
       Product.hasMany(models.Order, {
         foreignKey: 'product_id'
       });
@@ -31,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     product_name: DataTypes.STRING,
     product_price: DataTypes.INTEGER,
     product_description: DataTypes.TEXT,
+    product_image: DataTypes.STRING,
     category_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER
   }, {

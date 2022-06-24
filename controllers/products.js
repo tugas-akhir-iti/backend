@@ -1,5 +1,6 @@
 const db = require("../models");
 const Products = db.products;
+const cloudinaryConf = require("../config/cloudinary");
 
 async function findAll(req, res) {
   const products = await Products.findAll();
@@ -24,28 +25,34 @@ async function findById(req, res) {
 }
 
 async function insert(req, res) {
+  const uploadFoto = await cloudinaryConf.uploader.upload(
+    req.files.product_image.path
+  );
   const product = {
-    product_name: req.body.product_name,
-    product_price: req.body.product_price,
-    product_description: req.body.product_description,
-    product_image: req.body.product_image,
-    category_id: req.body.category_id,
-    user_id: req.body.user_id,
+    product_name: req.fields.product_name,
+    product_price: req.fields.product_price,
+    product_description: req.fields.product_description,
+    product_image: uploadFoto.secure_url,
+    category_id: req.fields.category_id,
+    user_id: req.fields.user_id,
   };
   const insertProduct = await Products.create(product);
   res.json(insertProduct);
 }
 
 async function update(req, res) {
+  const uploadFoto = await cloudinaryConf.uploader.upload(
+    req.files.product_image.path
+  );
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
     const product = {
-      product_name: req.body.product_name,
-      product_price: req.body.product_price,
-      product_description: req.body.product_description,
-      product_image: req.body.product_image,
-      category_id: req.body.category_id,
-      user_id: req.body.user_id,
+      product_name: req.fields.product_name,
+      product_price: req.fields.product_price,
+      product_description: req.fields.product_description,
+      product_image: uploadFoto.secure_url,
+      category_id: req.fields.category_id,
+      user_id: req.fields.user_id,
     };
     await Products.update(product, {
       where: { id: req.params.id },

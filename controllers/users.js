@@ -21,14 +21,14 @@ async function get(req, res) {
 async function create(req, res) {
   const saltRounds = 10;
   const salt = bcrypt.genSaltSync(saltRounds);
-  const hash = bcrypt.hashSync(req.body.user_password, salt);
-  req.body.user_password = hash;
+  const hash = bcrypt.hashSync(req.fields.user_password, salt);
+  req.fields.user_password = hash;
 
   const user = {
-    user_name: req.body.user_name,
-    user_email: req.body.user_email,
-    user_role: req.body.user_role,
-    user_password: req.body.user_password,
+    user_name: req.fields.user_name,
+    user_email: req.fields.user_email,
+    user_role: req.fields.user_role,
+    user_password: req.fields.user_password,
   };
 
   const insertUser = await Users.create(user);
@@ -37,12 +37,12 @@ async function create(req, res) {
 
 async function login(req, res) {
   const isUserExist = await Users.findOne({
-    where: { user_email: req.body.user_email },
+    where: { user_email: req.fields.user_email },
   });
   if (isUserExist) {
     // compare hash bcrypt
     const isPasswordTrue = bcrypt.compareSync(
-      req.body.user_password,
+      req.fields.user_password,
       isUserExist.user_password
     );
     if (isPasswordTrue) {
@@ -52,7 +52,6 @@ async function login(req, res) {
           id: isUserExist.id,
           user_name: isUserExist.user_name,
           user_email: isUserExist.user_email,
-          user_role: isUserExist.user_role,
         },
         process.env.TOKEN_SECRET
       );

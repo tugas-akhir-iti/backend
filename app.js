@@ -1,4 +1,5 @@
 var express = require("express");
+const formidable = require("express-formidable");
 const dotenv = require("dotenv");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -15,6 +16,8 @@ dotenv.config();
 
 app.use(logger("dev"));
 app.use(express.json());
+app.use(formidable());
+app.use(express.static('uploads'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));

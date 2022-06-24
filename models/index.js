@@ -39,6 +39,12 @@ db.users = require('./User.js')(sequelize, Sequelize);
 db.products = require('./Product.js')(sequelize, Sequelize);
 db.categories = require('./Category.js')(sequelize, Sequelize);
 db.orders = require('./Order.js')(sequelize, Sequelize);
-db.images = require('./Image.js')(sequelize, Sequelize);
+
+
+//call associate function
+db.users.associate(db)
+db.products.associate(db)
+db.categories.associate(db)
+db.orders.associate(db)
 
 module.exports = db;

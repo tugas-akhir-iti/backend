@@ -11,11 +11,12 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     return queryInterface.bulkInsert('products', [
+     return queryInterface.bulkInsert('Products', [
       {
          product_name: 'Deuter Futura Vario 45 + 10 SL',
          product_price: '1600000',
          product_description: 'Baru 1x naik gunung. Ga pernah dicuci. Bersihinnya cuma dilap aja. Lapisan waterproofnya masih bagus. Busa masih tebel dan empuk. Raincover masih muluss. Warna masih cerah. 99% like new.',
+         product_image: 'product1.jpg',
          category_id: 1,
          user_id: 1,
          createdAt: new Date(),
@@ -25,6 +26,7 @@ module.exports = {
          product_name: 'Eiger (S.Tiger claw)',
          product_price: '400000',
          product_description: 'Ukuran 42, warna olive, low cut, KONDISI : 1x pemakaian , Ada tambalan di bagian dalam (sebelah kiri)',
+         product_image: 'product1.jpg',
          category_id: 1,
          user_id: 1,
          createdAt: new Date(),
@@ -34,6 +36,7 @@ module.exports = {
          product_name: 'The North Face Outdoor Jacket',
          product_price: '270000',
          product_description: ' Size L (56x70), Warna Olive Green, KONDISI : 9/10 Minus pemakaian',
+         product_image: 'product1.jpg',
          category_id: 1,
          user_id: 1,
          createdAt: new Date(),
@@ -62,6 +65,7 @@ module.exports = {
          Harga: Rp 11.000.000
          
          Lokasi COD: Jakarta Pusat, Barat, Selatan, dll.`,
+         product_image: 'product1.jpg',
          category_id: 4,
          user_id: 2,
          createdAt: new Date(),
@@ -89,6 +93,7 @@ module.exports = {
          Harga: Rp 7.000.000
          
          Lokasi COD: Jakarta Pusat, Barat, Selatan, dll.`,
+         product_image: 'product1.jpg',
          category_id: 4,
          user_id: 2,
          createdAt: new Date(),

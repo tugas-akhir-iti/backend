@@ -1,9 +1,16 @@
-const db = require("../models");
-const Products = db.products;
 const cloudinaryConf = require("../config/cloudinary");
+const db = require("../models");
+const User = db.users;
+const Products = db.products;
+const Category = db.categories;
 
 async function findAll(req, res) {
-  const products = await Products.findAll();
+  const products = await Products.findAll({
+    include: [
+      {model: Category}, 
+      {model: User}
+    ]
+  });
   if (products == null) {
     res.send({ message: "Belum ada product" });
   } else {
@@ -15,6 +22,23 @@ async function findAll(req, res) {
 
 async function findById(req, res) {
   const product = await Products.findByPk(req.params.id);
+  if (product == null) {
+    res.send({ message: "Product tidak ada" });
+  } else {
+    res.send({
+      data: product,
+    });
+  }
+}
+
+//Find Product By Category Id
+async function findByCategoryId(req, res) {
+  const product = await Products.findAll({
+    where: {
+      category_id: req.params.id
+    }
+  });
+
   if (product == null) {
     res.send({ message: "Product tidak ada" });
   } else {
@@ -78,6 +102,7 @@ async function destroy(req, res) {
 module.exports = {
   findAll,
   findById,
+  findByCategoryId,
   insert,
   update,
   destroy,

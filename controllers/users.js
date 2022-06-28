@@ -1,3 +1,4 @@
+const cloudinaryConf = require("../config/cloudinary");
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
@@ -15,6 +16,29 @@ async function get(req, res) {
       Alamat: user.user_address,
       No_Handphone: user.user_phone,
     });
+  }
+}
+
+async function update(req, res) {
+  const uploadFoto = await cloudinaryConf.uploader.upload(
+    req.files.user_image.path
+  );
+  const checkIfUserExist = await Users.findByPk(req.params.id);
+  console.info(checkIfUserExist)
+  if(checkIfUserExist){
+    const user = {
+      user_image: uploadFoto.secure_url,
+      user_name: req.fields.user_name,
+      user_city: req.fields.user_city,
+      user_address: req.fields.user_address,
+      user_phone: req.fields.user_phone,
+    };
+    await Users.update(user, {
+      where: {id: req.params.id},
+    });
+    res.send({message: "Data user berhasil di update"})
+  }else{
+    res.send({message: "User gagal tidak ada"});
   }
 }
 
@@ -81,4 +105,5 @@ module.exports = {
   create,
   login,
   get,
+  update
 };

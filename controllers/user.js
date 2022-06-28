@@ -24,7 +24,6 @@ async function update(req, res) {
     req.files.user_image.path
   );
   const checkIfUserExist = await Users.findByPk(req.params.id);
-  console.info(checkIfUserExist)
   if(checkIfUserExist){
     const user = {
       user_image: uploadFoto.secure_url,

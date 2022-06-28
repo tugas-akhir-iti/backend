@@ -26,6 +26,18 @@ module.exports = {
          user_role: '1',
          createdAt: new Date(),
          updatedAt: new Date()
+      },
+      {
+         user_name: 'buyer',
+         user_email: 'buyer@gmail.com',
+         user_password: 'buyer123',
+         user_city: 'Bogor',
+         user_address: 'Desa. Jagabita Kec. Parungpanjang',
+         user_phone: '089623176509',
+         user_image: 'buyer.png',
+         user_role: '2',
+         createdAt: new Date(),
+         updatedAt: new Date()
       }
     ]);
   },

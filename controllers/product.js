@@ -6,18 +6,11 @@ const Category = db.categories;
 
 async function findAll(req, res) {
   const products = await Products.findAll({
-    include: [
-      {model: Category}, 
-      {model: User}
-    ]
+    include: [{ model: Category }, { model: User }],
   });
-  if (products == null) {
-    res.send({ message: "Belum ada product" });
-  } else {
-    res.send({
-      data: products,
-    });
-  }
+  res.send({
+    data: products,
+  });
 }
 
 async function findById(req, res) {
@@ -35,17 +28,12 @@ async function findById(req, res) {
 async function findByCategoryId(req, res) {
   const product = await Products.findAll({
     where: {
-      category_id: req.params.id
-    }
+      category_id: req.params.id,
+    },
   });
-
-  if (product == null) {
-    res.send({ message: "Product tidak ada" });
-  } else {
-    res.send({
-      data: product,
-    });
-  }
+  res.send({
+    data: product,
+  });
 }
 
 async function insert(req, res) {

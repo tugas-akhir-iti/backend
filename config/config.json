@@ -15,9 +15,15 @@
   },
   "production": {
     "username": "xvsmnhkfxjnxmx",
-    "password": "d05845c8e142cde4be2e8f771669a37f119d191bce0984f02ae7cbb9ac8ca8ae",
+    "password": "d05845c8e142cde4be2e8f771669a37f119d191bce0984f02ae7cbb9ac8ca8aec",
     "database": "second_hand",
     "host": "ec2-44-206-11-200.compute-1.amazonaws.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }

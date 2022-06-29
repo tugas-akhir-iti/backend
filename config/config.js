@@ -1,4 +1,4 @@
-require("dotenv").config();
+const dotenv = require('dotenv');
 
 // Load env
 dotenv.config();

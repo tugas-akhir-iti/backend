@@ -7,12 +7,15 @@ const Users = db.users;
 async function get(req, res) {
   const user = await Users.findByPk(req.params.id);
   if (user == null) {
-    res.send({ message: "User tidak ada" });
+    res.send({
+      message: "User tidak ada"
+    });
   } else {
     res.send({
       Foto_Profil: user.user_image,
       Nama: user.user_name,
-      Kota: user.user_city,
+      Provinsi: user.user_province,
+      Kota: user.user_regency,
       Alamat: user.user_address,
       No_Handphone: user.user_phone,
     });
@@ -24,20 +27,27 @@ async function update(req, res) {
     req.files.user_image.path
   );
   const checkIfUserExist = await Users.findByPk(req.params.id);
-  if(checkIfUserExist){
+  if (checkIfUserExist) {
     const user = {
       user_image: uploadFoto.secure_url,
       user_name: req.fields.user_name,
-      user_city: req.fields.user_city,
+      user_regency: req.fields.user_regency,
       user_address: req.fields.user_address,
       user_phone: req.fields.user_phone,
+      user_province: req.fields.user_province
     };
     await Users.update(user, {
-      where: {id: req.params.id},
+      where: {
+        id: req.params.id
+      },
     });
-    res.send({message: "Data user berhasil di update"})
-  }else{
-    res.send({message: "User gagal tidak ada"});
+    res.send({
+      message: "Data user berhasil di update"
+    })
+  } else {
+    res.send({
+      message: "User gagal tidak ada"
+    });
   }
 }
 
@@ -60,7 +70,9 @@ async function create(req, res) {
 
 async function login(req, res) {
   const isUserExist = await Users.findOne({
-    where: { user_email: req.fields.user_email },
+    where: {
+      user_email: req.fields.user_email
+    },
   });
   if (isUserExist) {
     // compare hash bcrypt
@@ -70,8 +82,7 @@ async function login(req, res) {
     );
     if (isPasswordTrue) {
       //generate token
-      const token = jwt.sign(
-        {
+      const token = jwt.sign({
           id: isUserExist.id,
           user_name: isUserExist.user_name,
           user_email: isUserExist.user_email,

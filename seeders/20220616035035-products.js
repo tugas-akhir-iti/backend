@@ -67,7 +67,7 @@ module.exports = {
          Lokasi COD: Jakarta Pusat, Barat, Selatan, dll.`,
          product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1656080268/Macbook_Pro_Retina_Non_Touchbar_2017_ig8o9a.webp',
          category_id: 4,
-         user_id: 2,
+         user_id: 1,
          createdAt: new Date(),
          updatedAt: new Date()
       },
@@ -95,7 +95,7 @@ module.exports = {
          Lokasi COD: Jakarta Pusat, Barat, Selatan, dll.`,
          product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1656080268/Macbook_Air_Early_2015_MJVP2_jotlt8.webp',
          category_id: 4,
-         user_id: 2,
+         user_id: 1,
          createdAt: new Date(),
          updatedAt: new Date()
       }

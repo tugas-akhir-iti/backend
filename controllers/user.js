@@ -24,7 +24,7 @@ async function update(req, res) {
     req.files.user_image.path
   );
   const checkIfUserExist = await Users.findByPk(req.params.id);
-  if(checkIfUserExist){
+  if (checkIfUserExist) {
     const user = {
       user_image: uploadFoto.secure_url,
       user_name: req.fields.user_name,
@@ -33,11 +33,11 @@ async function update(req, res) {
       user_phone: req.fields.user_phone,
     };
     await Users.update(user, {
-      where: {id: req.params.id},
+      where: { id: req.params.id },
     });
-    res.send({message: "Data user berhasil di update"})
-  }else{
-    res.send({message: "User gagal tidak ada"});
+    res.send({ message: "Data user berhasil di update" });
+  } else {
+    res.send({ message: "User gagal tidak ada" });
   }
 }
 
@@ -75,6 +75,7 @@ async function login(req, res) {
           id: isUserExist.id,
           user_name: isUserExist.user_name,
           user_email: isUserExist.user_email,
+          user_role: isUserExist.user_role,
         },
         process.env.TOKEN_SECRET
       );
@@ -104,5 +105,5 @@ module.exports = {
   create,
   login,
   get,
-  update
+  update,
 };

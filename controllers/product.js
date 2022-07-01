@@ -46,7 +46,7 @@ async function insert(req, res) {
     product_description: req.fields.product_description,
     product_image: uploadFoto.secure_url,
     category_id: req.fields.category_id,
-    user_id: req.fields.user_id,
+    user_id: req.user.id,
   };
   const insertProduct = await Products.create(product);
   res.json(insertProduct);
@@ -64,7 +64,6 @@ async function update(req, res) {
       product_description: req.fields.product_description,
       product_image: uploadFoto.secure_url,
       category_id: req.fields.category_id,
-      user_id: req.fields.user_id,
     };
     await Products.update(product, {
       where: { id: req.params.id },

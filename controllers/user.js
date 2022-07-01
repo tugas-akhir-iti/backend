@@ -8,7 +8,7 @@ async function get(req, res) {
   const user = await Users.findByPk(req.params.id);
   if (user == null) {
     res.send({
-      message: "User tidak ada"
+      message: "User tidak ada",
     });
   } else {
     res.send({
@@ -34,19 +34,19 @@ async function update(req, res) {
       user_regency: req.fields.user_regency,
       user_address: req.fields.user_address,
       user_phone: req.fields.user_phone,
-      user_province: req.fields.user_province
+      user_province: req.fields.user_province,
     };
     await Users.update(user, {
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
     });
     res.send({
-      message: "Data user berhasil di update"
-    })
+      message: "Data user berhasil di update",
+    });
   } else {
     res.send({
-      message: "User tidak ada"
+      message: "User tidak ada",
     });
   }
 }
@@ -65,13 +65,19 @@ async function create(req, res) {
   };
 
   const insertUser = await Users.create(user);
-  res.json(insertUser);
+  const response = {
+    id: insertUser.id,
+    user_name: insertUser.user_name,
+    user_email: insertUser.user_email,
+    user_role: insertUser.user_role,
+  };
+  res.json(response);
 }
 
 async function login(req, res) {
   const isUserExist = await Users.findOne({
     where: {
-      user_email: req.fields.user_email
+      user_email: req.fields.user_email,
     },
   });
   if (isUserExist) {
@@ -82,7 +88,8 @@ async function login(req, res) {
     );
     if (isPasswordTrue) {
       //generate token
-      const token = jwt.sign({
+      const token = jwt.sign(
+        {
           id: isUserExist.id,
           user_name: isUserExist.user_name,
           user_email: isUserExist.user_email,

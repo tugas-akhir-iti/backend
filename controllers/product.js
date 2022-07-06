@@ -6,7 +6,9 @@ const Category = db.categories;
 
 async function findAll(req, res) {
   const products = await Products.findAll({
-    include: [{ model: Category }, { model: User }],
+    include: [{
+      model: Category
+    }],
   });
   res.send({
     data: products,
@@ -16,7 +18,9 @@ async function findAll(req, res) {
 async function findById(req, res) {
   const product = await Products.findByPk(req.params.id);
   if (product == null) {
-    res.send({ message: "Product tidak ada" });
+    res.send({
+      message: "Product tidak ada"
+    });
   } else {
     res.send({
       data: product,
@@ -66,11 +70,17 @@ async function update(req, res) {
       category_id: req.fields.category_id,
     };
     await Products.update(product, {
-      where: { id: req.params.id },
+      where: {
+        id: req.params.id
+      },
     });
-    res.send({ message: "Data product berhasil diupdate" });
+    res.send({
+      message: "Data product berhasil diupdate"
+    });
   } else {
-    res.send({ message: "Product tidak ada" });
+    res.send({
+      message: "Product tidak ada"
+    });
   }
 }
 
@@ -78,11 +88,17 @@ async function destroy(req, res) {
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
     await Products.destroy({
-      where: { id: req.params.id },
+      where: {
+        id: req.params.id
+      },
     });
-    res.send({ message: "Product berhasil dihapus" });
+    res.send({
+      message: "Product berhasil dihapus"
+    });
   } else {
-    res.send({ message: "Product tidak ada" });
+    res.send({
+      message: "Product tidak ada"
+    });
   }
 }
 

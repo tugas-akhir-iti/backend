@@ -1,13 +1,13 @@
 const cloudinaryConf = require("../config/cloudinary");
 const db = require("../models");
-const User = db.users;
 const Products = db.products;
-const Category = db.categories;
+const Categories = db.categories;
+const Notifications = db.notifications;
 
 async function findAll(req, res) {
   const products = await Products.findAll({
     include: [{
-      model: Category
+      model: Categories
     }],
   });
   res.send({
@@ -28,9 +28,11 @@ async function findById(req, res) {
   }
 }
 
-//Find Product By Category Id
 async function findByCategoryId(req, res) {
   const product = await Products.findAll({
+    include: [{
+      model: Categories
+    }],
     where: {
       category_id: req.params.id,
     },
@@ -53,6 +55,14 @@ async function insert(req, res) {
     user_id: req.user.id,
   };
   const insertProduct = await Products.create(product);
+
+  const notification = {
+    notification_title: "Berhasil di terbitkan",
+    user_id: req.user.id,
+    product_id: insertProduct.id,
+    mark_as_read: false,
+  }
+  await Notifications.create(notification);
   res.json(insertProduct);
 }
 

@@ -18,11 +18,11 @@ async function insert(req, res) {
     },
   });
   const notification = {
-    notification_title: "Product Penawaran",
+    notification_title: "Penawaran produk",
     user_id: getUserId.user_id,
     product_id: req.fields.product_id,
     order_id: createOrder.id,
-    mark_as_read: true,
+    mark_as_read: false,
   };
 
   await Notifications.create(notification);
@@ -43,6 +43,14 @@ async function update(req, res) {
         id: req.params.id,
       },
     });
+    const notification = {
+      notification_title: "Penawaran produk",
+      user_id: checkIfOrderExist.user_id,
+      product_id: checkIfOrderExist.product_id,
+      order_id: checkIfOrderExist.id,
+      mark_as_read: false,
+    };
+    await Notifications.create(notification);
     res.send({
       message: "Data order berhasil diupdate",
     });
@@ -55,5 +63,5 @@ async function update(req, res) {
 
 module.exports = {
   insert,
-  update
+  update,
 };

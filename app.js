@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
@@ -12,9 +13,11 @@ var orderRouter = require("./routes/order");
 
 var app = express();
 
+
 // load env variable
 dotenv.config();
 
+app.use(cors())
 app.use(logger("dev"));
 app.use(express.json());
 app.use(formidable());

@@ -51,6 +51,7 @@ async function insert(req, res) {
     product_price: req.fields.product_price,
     product_description: req.fields.product_description,
     product_image: uploadFoto.secure_url,
+    product_availabe: true,
     category_id: req.fields.category_id,
     user_id: req.user.id,
   };
@@ -94,6 +95,25 @@ async function update(req, res) {
   }
 }
 
+async function updateStatusProduct(req, res) {
+  const checkIfProductExist = await Products.findByPk(req.params.id);
+  if (checkIfProductExist) {
+    const product = {product_available: req.fields.product_available};
+    await Products.update(product, {
+      where: {
+        id: req.params.id
+      },
+    });
+    res.send({
+      message: "Data product berhasil diupdate"
+    });
+  } else {
+    res.send({
+      message: "Product tidak ada"
+    });
+  }
+}
+
 async function destroy(req, res) {
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
@@ -118,5 +138,6 @@ module.exports = {
   findByCategoryId,
   insert,
   update,
+  updateStatusProduct,
   destroy,
 };

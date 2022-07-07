@@ -20,6 +20,9 @@ module.exports = {
       product_image: {
         type: Sequelize.STRING
       },
+      product_available: {
+        type: Sequelize.BOOLEAN
+      },
       category_id: {
         type: Sequelize.INTEGER,
         references: {

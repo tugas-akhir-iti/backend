@@ -2,10 +2,14 @@ const cloudinaryConf = require("../config/cloudinary");
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
+const Notifications = db.notifications;
+const Orders = db.orders;
+const Products = db.products;
 const Users = db.users;
+const Sequelize = require('sequelize');
 
 async function get(req, res) {
-  const user = await Users.findByPk(req.params.id);
+  const user = await Users.findByPk(req.user.id);
   if (user == null) {
     res.send({
       message: "User tidak ada",
@@ -22,11 +26,45 @@ async function get(req, res) {
   }
 }
 
+async function getNotications(req, res) {
+  const notifications = await Notifications.findAll({
+    include: [{ model: Users }, { model: Products }, { model: Orders }],
+    where: {
+      user_id: req.user.id,
+    },
+  });
+  res.send({
+    data: notifications,
+  });
+}
+
+async function getTransactionsHistory(req, res) {
+  const checkUser = await Users.findByPk(req.user.id);
+  const getProductsData = await Products.findAll({where: {
+    user_id: req.user.id
+  }});
+  if(checkUser.user_role == 1){
+    const transactionHistoryBuyer = await Orders.findAll({where: {
+      user_id: req.user.id,
+    },})
+    res.status(200).json({data: transactionHistoryBuyer});
+  } else if (checkUser.user_role == 2){
+    const productIds = []; 
+    getProductsData.forEach(value => {
+        productIds.push(value.id);
+    })
+    const transactionHistorySeller = await Orders.findAll({where: {
+      product_id: {[Sequelize.Op.in]: productIds }
+    } })
+    res.status(200).json({data: transactionHistorySeller});  
+  }
+}
+
 async function update(req, res) {
   const uploadFoto = await cloudinaryConf.uploader.upload(
     req.files.user_image.path
   );
-  const checkIfUserExist = await Users.findByPk(req.params.id);
+  const checkIfUserExist = await Users.findByPk(req.user.id);
   if (checkIfUserExist) {
     const user = {
       user_image: uploadFoto.secure_url,
@@ -38,7 +76,7 @@ async function update(req, res) {
     };
     await Users.update(user, {
       where: {
-        id: req.params.id,
+        id: req.user.id,
       },
     });
     res.send({
@@ -123,5 +161,7 @@ module.exports = {
   create,
   login,
   get,
+  getNotications,
+  getTransactionsHistory,
   update,
 };

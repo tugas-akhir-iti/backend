@@ -6,6 +6,7 @@ const Notifications = db.notifications;
 const Orders = db.orders;
 const Products = db.products;
 const Users = db.users;
+const Sequelize = require('sequelize');
 
 async function get(req, res) {
   const user = await Users.findByPk(req.user.id);
@@ -46,13 +47,16 @@ async function getTransactionsHistory(req, res) {
     const transactionHistoryBuyer = await Orders.findAll({where: {
       user_id: req.user.id,
     },})
-    res.json(transactionHistoryBuyer);
+    res.status(200).json({data: transactionHistoryBuyer});
   } else if (checkUser.user_role == 2){
-     const transactionHistorySeller = await Orders.findAll({where: {
-       product_id: getProductsData.id
-     } })
-     console.log(`product id: ${getProductsData.id}`);
-     res.json(transactionHistorySeller);
+    const productIds = []; 
+    getProductsData.forEach(value => {
+        productIds.push(value.id);
+    })
+    const transactionHistorySeller = await Orders.findAll({where: {
+      product_id: {[Sequelize.Op.in]: productIds }
+    } })
+    res.status(200).json({data: transactionHistorySeller});  
   }
 }
 

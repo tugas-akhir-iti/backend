@@ -5,7 +5,7 @@ dotenv.config();
 
 module.exports = {
   development: {
-    username: "latif_project_fsw",
+    username: "perdly",
     password: "root",
     database: "second_hand",
     host: "127.0.0.1",

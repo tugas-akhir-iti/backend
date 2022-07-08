@@ -14,6 +14,8 @@ router.post("/", middlewareVerifyToken, middlewareProfileIsComplete, productCont
 
 router.put("/:id", middlewareVerifyToken, middlewareProfileIsComplete, productController.update);
 
+router.put("/status/:id", middlewareVerifyToken, middlewareProfileIsComplete, productController.updateStatusProduct);
+
 router.delete("/:id", middlewareVerifyToken, middlewareProfileIsComplete, productController.destroy);
 
 module.exports = router;

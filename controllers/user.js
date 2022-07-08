@@ -6,7 +6,7 @@ const Notifications = db.notifications;
 const Orders = db.orders;
 const Products = db.products;
 const Users = db.users;
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
 async function get(req, res) {
   const user = await Users.findByPk(req.user.id);
@@ -15,13 +15,16 @@ async function get(req, res) {
       message: "User tidak ada",
     });
   } else {
-    res.send({
+    const response = {
       Foto_Profil: user.user_image,
       Nama: user.user_name,
       Provinsi: user.user_province,
       Kota: user.user_regency,
       Alamat: user.user_address,
       No_Handphone: user.user_phone,
+    };
+    res.send({
+      data: response,
     });
   }
 }
@@ -40,23 +43,29 @@ async function getNotications(req, res) {
 
 async function getTransactionsHistory(req, res) {
   const checkUser = await Users.findByPk(req.user.id);
-  const getProductsData = await Products.findAll({where: {
-    user_id: req.user.id
-  }});
-  if(checkUser.user_role == 1){
-    const transactionHistoryBuyer = await Orders.findAll({where: {
+  const getProductsData = await Products.findAll({
+    where: {
       user_id: req.user.id,
-    },})
-    res.status(200).json({data: transactionHistoryBuyer});
-  } else if (checkUser.user_role == 2){
-    const productIds = []; 
-    getProductsData.forEach(value => {
-        productIds.push(value.id);
-    })
-    const transactionHistorySeller = await Orders.findAll({where: {
-      product_id: {[Sequelize.Op.in]: productIds }
-    } })
-    res.status(200).json({data: transactionHistorySeller});  
+    },
+  });
+  if (checkUser.user_role == 1) {
+    const transactionHistoryBuyer = await Orders.findAll({
+      where: {
+        user_id: req.user.id,
+      },
+    });
+    res.status(200).json({ data: transactionHistoryBuyer });
+  } else if (checkUser.user_role == 2) {
+    const productIds = [];
+    getProductsData.forEach((value) => {
+      productIds.push(value.id);
+    });
+    const transactionHistorySeller = await Orders.findAll({
+      where: {
+        product_id: { [Sequelize.Op.in]: productIds },
+      },
+    });
+    res.status(200).json({ data: transactionHistorySeller });
   }
 }
 

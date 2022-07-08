@@ -70,13 +70,15 @@ async function getTransactionsHistory(req, res) {
 }
 
 async function update(req, res) {
-  const uploadFoto = await cloudinaryConf.uploader.upload(
-    req.files.user_image.path
-  );
   const checkIfUserExist = await Users.findByPk(req.user.id);
   if (checkIfUserExist) {
+    const uploadFoto = req.files.user_image
+      ? await cloudinaryConf.uploader.upload(req.files.user_image.path)
+      : null;
     const user = {
-      user_image: uploadFoto.secure_url,
+      user_image: req.files.user_image
+        ? uploadFoto.secure_url
+        : req.fields.user_image,
       user_name: req.fields.user_name,
       user_regency: req.fields.user_regency,
       user_address: req.fields.user_address,

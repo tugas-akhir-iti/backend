@@ -5,8 +5,8 @@ dotenv.config();
 
 module.exports = {
   development: {
-    username: "catcoder",
-    password: "beanstaroast",
+    username: "perdly",
+    password: "root",
     database: "second_hand",
     host: "127.0.0.1",
     dialect: "postgres",

@@ -36,11 +36,11 @@ module.exports = {
       },
       {
          product_name: 'The North Face Outdoor Jacket',
-         product_price: '270000',
+         product_price: '275000',
          product_description: ' Size L (56x70), Warna Olive Green, KONDISI : 9/10 Minus pemakaian',
          product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1656080269/The_North_Face_Outdoor_Jacket_fdpm8y.jpg',
          product_available: true,
-         category_id: 1,
+         category_id: 3,
          user_id: 1,
          createdAt: new Date(),
          updatedAt: new Date()
@@ -100,6 +100,62 @@ module.exports = {
          product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1656080268/Macbook_Air_Early_2015_MJVP2_jotlt8.webp',
          product_available: true,
          category_id: 4,
+         user_id: 1,
+         createdAt: new Date(),
+         updatedAt: new Date()
+      },
+      {
+         product_name: 'Walker Fs 913 L Merk GEA ( Alat Bantu Jalan ) - Merek Gea',
+         product_price: '300000',
+         product_description: `Walker GEA FS 913 L merupakan alat bantu jalan untuk orang tua , berbentuk jemuran tanpa roda.
+
+         Walker / Alat bantu jalan ini sangat cocok untuk digunakan sebagai alat fisioterapi, ataupun digunakan oleh orang tua karena dapat dijadikan tumpuan tubuh melalui kedua tangan.
+         
+         selain itu, walker GEA ini dapat diatur ketinggiannya untuk disesuaikan dengan tinggi tubuh penggunanya.
+         
+         Spesifikasi Produk :
+         - Bahan : Stainless
+         - ketinggian : 80-89cm ( Dapat diatur/ adjustable dengan 4 bh pin di setiap kaki)`,
+         product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1657283603/gea_gea-fs913l-walker-alat-bantu-jalan_full02_vclpiy.webp',
+         product_available: true,
+         category_id: 5,
+         user_id: 1,
+         createdAt: new Date(),
+         updatedAt: new Date()
+      },
+      {
+         product_name: 'BMX Cub Custom Modifikasi Motor seperti sepeda',
+         product_price: '9500000',
+         product_description: `
+         
+         BMX Cub modifikasi
+
+         ( Ready )
+         
+         spesifikasi nya
+         - mesin Supra
+         - mesin halus
+         - Rangka full custom handmade
+         - Shock depan Baru
+         - segitiga dan komstir
+         - cakram depan baru
+         - Velg Baru dan ban ukuran ring 17
+         - jok empuk dan baru
+         - rem belakang pakai handle rem kiri
+         - stang BMX
+         - Riser BMX
+         - Gas spontan
+         - Selang rem
+         - Master dan kaliper
+         - Ban Baru
+         - Handgrip baru
+         - Lampu depan LED
+         - Aki Baru
+         
+         Mau cek unit bisa datang ke bengkel`,
+         product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1657283868/460568dc-a26e-4095-9f59-36eeadb76902_inwntr.jpg',
+         product_available: true,
+         category_id: 2,
          user_id: 1,
          createdAt: new Date(),
          updatedAt: new Date()

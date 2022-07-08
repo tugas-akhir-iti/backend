@@ -36,7 +36,7 @@ module.exports = {
       },
       {
          product_name: 'The North Face Outdoor Jacket',
-         product_price: '270000',
+         product_price: '275000',
          product_description: ' Size L (56x70), Warna Olive Green, KONDISI : 9/10 Minus pemakaian',
          product_image: 'https://res.cloudinary.com/dallchrvc/image/upload/v1656080269/The_North_Face_Outdoor_Jacket_fdpm8y.jpg',
          product_available: true,

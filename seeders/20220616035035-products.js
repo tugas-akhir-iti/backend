@@ -105,7 +105,7 @@ module.exports = {
          updatedAt: new Date()
       },
       {
-         product_name: 'Walker Fs 913 L Merk GEA ( Alat Bantu Jalan ) - Merek Gea',
+         product_name: 'Walker Fs913 Merk GEA',
          product_price: '300000',
          product_description: `Walker GEA FS 913 L merupakan alat bantu jalan untuk orang tua , berbentuk jemuran tanpa roda.
 
@@ -124,7 +124,7 @@ module.exports = {
          updatedAt: new Date()
       },
       {
-         product_name: 'BMX Cub Custom Modifikasi Motor seperti sepeda',
+         product_name: 'BMX Cub Custom',
          product_price: '9500000',
          product_description: `
          

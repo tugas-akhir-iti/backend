@@ -72,16 +72,18 @@ async function insert(req, res) {
 }
 
 async function update(req, res) {
-  const uploadFoto = await cloudinaryConf.uploader.upload(
-    req.files.product_image.path
-  );
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
+    const uploadFoto = req.files.product_image
+      ? await cloudinaryConf.uploader.upload(req.files.product_image.path)
+      : null;
     const product = {
       product_name: req.fields.product_name,
       product_price: req.fields.product_price,
       product_description: req.fields.product_description,
-      product_image: uploadFoto.secure_url,
+      product_image: req.files.product_image
+        ? uploadFoto.secure_url
+        : req.fields.product_image,
       category_id: req.fields.category_id,
     };
     await Products.update(product, {

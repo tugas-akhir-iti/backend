@@ -10,7 +10,7 @@ module.exports = {
          user_regency: 'Bogor',
          user_address: 'Desa. Jagabita Kec. Parungpanjang',
          user_phone: '089623176509',
-         user_role: '1',
+         user_role: '2',
          user_province: 'Jawa Barat',
          createdAt: new Date(),
          updatedAt: new Date()

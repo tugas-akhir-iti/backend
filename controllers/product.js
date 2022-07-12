@@ -1,6 +1,7 @@
 const cloudinaryConf = require("../config/cloudinary");
 const db = require("../models");
 const Products = db.products;
+const Users = db.users;
 const Categories = db.categories;
 const Notifications = db.notifications;
 
@@ -10,6 +11,9 @@ async function findAll(req, res) {
       {
         model: Categories,
       },
+      {
+        model: Users,
+      },
     ],
   });
   res.send({
@@ -18,7 +22,9 @@ async function findAll(req, res) {
 }
 
 async function findById(req, res) {
-  const product = await Products.findByPk(req.params.id);
+  const product = await Products.findByPk(req.params.id, {
+    include: [{ model: Users }, { model: Categories }],
+  });
   if (product == null) {
     res.send({
       message: "Product tidak ada",

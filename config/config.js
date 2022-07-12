@@ -12,9 +12,9 @@ module.exports = {
     dialect: "postgres",
   },
   test: {
-    username: "catcoder",
-    password: "beanstaroast",
-    database: "second_hand",
+    username: "perdly",
+    password: "root",
+    database: "second_hand_test",
     host: "127.0.0.1",
     dialect: "postgres",
   },

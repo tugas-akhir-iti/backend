@@ -3,14 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "develop": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "develop": "nodemon ./bin/www",
+    "test": "jest --setupFiles dotenv/config --coverage --forceExit"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.30.0",
     "cors": "^2.8.5",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.0.1",
     "express": "~4.16.1",
@@ -20,7 +22,9 @@
     "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.20.1",
-    "sequelize-cli": "^6.4.1"
+    "sequelize": "^6.21.2",
+    "sequelize-cli": "^6.4.1",
+    "sequelize-test-helpers": "^1.4.2",
+    "supertest": "^6.2.3"
   }
 }

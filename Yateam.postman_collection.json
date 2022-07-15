@@ -1,0 +1,573 @@
+{
+	"info": {
+		"_postman_id": "eced4d46-829d-417e-91bf-e852fff41cd8",
+		"name": "Yateam",
+		"description": "# Kelompok\nYa-Team\n\n# Anggota\nJaenulatif, Perdly, Fadhli, Rizkiah dan Kanzoon.\n\n# Aplikasi \nSecond Hand (Projek Akhir oleh Binar Academy)\n\n# Deskripsi\nAPI documentation ini memiliki 3 folder (endpoint) untuk mengintegrasikan FE menuju BE, yaitu Orders, Products dan Users.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20466333"
+	},
+	"item": [
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Add Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1eWFiQGdtYWlsLmNvbSIsInJvbGUiOiJzdXBlcmFkbWluIiwiaWF0IjoxNjU1ODc3NDU4LCJleHAiOjE2NTU5Mzc0NTh9.DqSuCm16JtY8EXYRTT_2fdvcWi-bKjsX9TqH6tLxR94",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "order_price",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_id",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/orders/",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1eWFiQGdtYWlsLmNvbSIsInJvbGUiOiJzdXBlcmFkbWluIiwiaWF0IjoxNjU1ODc3NDU4LCJleHAiOjE2NTU5Mzc0NTh9.DqSuCm16JtY8EXYRTT_2fdvcWi-bKjsX9TqH6tLxR94",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "order_status",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/orders/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Users by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/users/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_role",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_password",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/users/",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_password",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_role",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/users/login",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_image",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_province",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_regency",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_phone",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/users/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notifications",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoiYWhtYWQiLCJ1c2VyX2VtYWlsIjoiYWhtYWRAZ21haWwuY29tIiwidXNlcl9yb2xlIjoxLCJpYXQiOjE2NTcxOTIyOTZ9.Uf1CWN0OZQ4I1hkOpRQryFdtppC31MFar-oQpaBnUMk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/users/notifications",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcl9uYW1lIjoicGVyZGx5IiwidXNlcl9lbWFpbCI6InBlcmRseUBnbWFpbC5jb20iLCJ1c2VyX3JvbGUiOjIsImlhdCI6MTY1NzE5MjQ2NX0.CMEmCT50fwuw1gNjKS2kfSZj5pt78l13zJF2koeqCMk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/users/transactions",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"users",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/products",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/products/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products Category by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/products/categories/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"products",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_price",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/products/",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Products",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_price",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "product_image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/products/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Products",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://kelompok4-yateam.herokuapp.com/products/:id",
+							"protocol": "https",
+							"host": [
+								"kelompok4-yateam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

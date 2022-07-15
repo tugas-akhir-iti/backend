@@ -2,42 +2,101 @@ const cloudinaryConf = require("../config/cloudinary");
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
+const Notifications = db.notifications;
+const Orders = db.orders;
+const Products = db.products;
 const Users = db.users;
+const Sequelize = require("sequelize");
 
 async function get(req, res) {
-  const user = await Users.findByPk(req.params.id);
+  const user = await Users.findByPk(req.user.id);
   if (user == null) {
-    res.send({ message: "User tidak ada" });
-  } else {
     res.send({
+      message: "User tidak ada",
+    });
+  } else {
+    const response = {
       Foto_Profil: user.user_image,
       Nama: user.user_name,
-      Kota: user.user_city,
+      Provinsi: user.user_province,
+      Kota: user.user_regency,
       Alamat: user.user_address,
       No_Handphone: user.user_phone,
+    };
+    res.send({
+      data: response,
     });
   }
 }
 
+async function getNotications(req, res) {
+  const notifications = await Notifications.findAll({
+    include: [{ model: Users }, { model: Products }, { model: Orders }],
+    where: {
+      user_id: req.user.id,
+    },
+  });
+  res.send({
+    data: notifications,
+  });
+}
+
+async function getTransactionsHistory(req, res) {
+  const checkUser = await Users.findByPk(req.user.id);
+  const getProductsData = await Products.findAll({
+    where: {
+      user_id: req.user.id,
+    },
+  });
+  if (checkUser.user_role == 1) {
+    const transactionHistoryBuyer = await Orders.findAll({
+      where: {
+        user_id: req.user.id,
+      },
+    });
+    res.status(200).json({ data: transactionHistoryBuyer });
+  } else if (checkUser.user_role == 2) {
+    const productIds = [];
+    getProductsData.forEach((value) => {
+      productIds.push(value.id);
+    });
+    const transactionHistorySeller = await Orders.findAll({
+      where: {
+        product_id: { [Sequelize.Op.in]: productIds },
+      },
+    });
+    res.status(200).json({ data: transactionHistorySeller });
+  }
+}
+
 async function update(req, res) {
-  const uploadFoto = await cloudinaryConf.uploader.upload(
-    req.files.user_image.path
-  );
-  const checkIfUserExist = await Users.findByPk(req.params.id);
+  const checkIfUserExist = await Users.findByPk(req.user.id);
   if (checkIfUserExist) {
+    const uploadFoto = req.files.user_image
+      ? await cloudinaryConf.uploader.upload(req.files.user_image.path)
+      : null;
     const user = {
-      user_image: uploadFoto.secure_url,
+      user_image: req.files.user_image
+        ? uploadFoto.secure_url
+        : req.fields.user_image,
       user_name: req.fields.user_name,
-      user_city: req.fields.user_city,
+      user_regency: req.fields.user_regency,
       user_address: req.fields.user_address,
       user_phone: req.fields.user_phone,
+      user_province: req.fields.user_province,
     };
     await Users.update(user, {
-      where: { id: req.params.id },
+      where: {
+        id: req.user.id,
+      },
     });
-    res.send({ message: "Data user berhasil di update" });
+    res.send({
+      message: "Data user berhasil di update",
+    });
   } else {
-    res.send({ message: "User gagal tidak ada" });
+    res.send({
+      message: "User tidak ada",
+    });
   }
 }
 
@@ -55,12 +114,20 @@ async function create(req, res) {
   };
 
   const insertUser = await Users.create(user);
-  res.json(insertUser);
+  const response = {
+    id: insertUser.id,
+    user_name: insertUser.user_name,
+    user_email: insertUser.user_email,
+    user_role: insertUser.user_role,
+  };
+  res.json(response);
 }
 
 async function login(req, res) {
   const isUserExist = await Users.findOne({
-    where: { user_email: req.fields.user_email },
+    where: {
+      user_email: req.fields.user_email,
+    },
   });
   if (isUserExist) {
     // compare hash bcrypt
@@ -105,5 +172,7 @@ module.exports = {
   create,
   login,
   get,
+  getNotications,
+  getTransactionsHistory,
   update,
 };

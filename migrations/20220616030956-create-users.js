@@ -17,7 +17,11 @@ module.exports = {
       user_password: {
         type: Sequelize.STRING
       },
-      user_city: {
+      user_province: {
+        type: Sequelize.STRING(50),
+        allowNull: true
+      },
+      user_regency: {
         type: Sequelize.STRING(50),
         allowNull: true
       },

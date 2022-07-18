@@ -22,6 +22,7 @@ async function get(req, res) {
       Kota: user.user_regency,
       Alamat: user.user_address,
       No_Handphone: user.user_phone,
+      Role: user.user_role,
     };
     res.send({
       data: response,

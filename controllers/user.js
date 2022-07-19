@@ -16,13 +16,13 @@ async function get(req, res) {
     });
   } else {
     const response = {
-      Foto_Profil: user.user_image,
-      Nama: user.user_name,
-      Provinsi: user.user_province,
-      Kota: user.user_regency,
-      Alamat: user.user_address,
-      No_Handphone: user.user_phone,
-      Role: user.user_role,
+      user_name: user.user_name,
+      user_province: user.user_province,
+      user_regency: user.user_regency,
+      user_address: user.user_address,
+      user_phone: user.user_phone,
+      user_image: user.user_image,
+      user_role: user.user_role,
     };
     res.send({
       data: response,

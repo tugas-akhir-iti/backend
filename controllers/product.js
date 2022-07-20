@@ -52,6 +52,17 @@ async function findByCategoryId(req, res) {
   });
 }
 
+async function findByUserId(req, res) {
+  const product = await Products.findAll({
+    where: {
+      user_id: req.user.id,
+    },
+  });
+  res.send({
+    data: product,
+  });
+}
+
 async function insert(req, res) {
   const uploadFoto = await cloudinaryConf.uploader.upload(
     req.files.product_image.path
@@ -148,6 +159,7 @@ module.exports = {
   findAll,
   findById,
   findByCategoryId,
+  findByUserId,
   insert,
   update,
   updateStatusProduct,

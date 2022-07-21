@@ -54,6 +54,11 @@ async function findByCategoryId(req, res) {
 
 async function findByUserId(req, res) {
   const product = await Products.findAll({
+    include: [
+      {
+        model: Categories,
+      },
+    ],
     where: {
       user_id: req.user.id,
     },

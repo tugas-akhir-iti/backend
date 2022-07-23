@@ -20,6 +20,8 @@ router.get("/categories/:id", productController.findByCategoryId);
 
 router.get("/user/id", middlewareVerifyToken, productController.findByUserId);
 
+router.get("/search/all", productController.search);
+
 router.post(
   "/",
   middlewareVerifyToken,

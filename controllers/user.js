@@ -52,6 +52,7 @@ async function getTransactionsHistory(req, res) {
   });
   if (checkUser.user_role == 1) {
     const transactionHistoryBuyer = await Orders.findAll({
+      include: [{ model: Products }],
       where: {
         user_id: req.user.id,
       },
@@ -63,6 +64,7 @@ async function getTransactionsHistory(req, res) {
       productIds.push(value.id);
     });
     const transactionHistorySeller = await Orders.findAll({
+      include: [{ model: Products }],
       where: {
         product_id: { [Sequelize.Op.in]: productIds },
       },

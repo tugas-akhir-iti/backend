@@ -4,6 +4,8 @@ const Products = db.products;
 const Users = db.users;
 const Categories = db.categories;
 const Notifications = db.notifications;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 async function findAll(req, res) {
   const products = await Products.findAll({
@@ -160,6 +162,23 @@ async function destroy(req, res) {
   }
 }
 
+async function search(req, res) {
+  console.log(req.query.name)
+  let product = await Products.findAll({
+    where: {
+      product_name: {
+        [Op.iLike]: `%${req.query.name}%`
+      }
+    }
+  });
+  if(product!=null){
+    res.send({data: product})
+  }else{
+    res.send("Product tidak ada") 
+  }
+  
+}
+
 module.exports = {
   findAll,
   findById,
@@ -169,4 +188,5 @@ module.exports = {
   update,
   updateStatusProduct,
   destroy,
+  search,
 };

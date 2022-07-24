@@ -16,6 +16,7 @@ async function get(req, res) {
     });
   } else {
     const response = {
+      user_id: user.id,
       user_name: user.user_name,
       user_province: user.user_province,
       user_regency: user.user_regency,

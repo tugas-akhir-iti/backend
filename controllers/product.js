@@ -147,6 +147,11 @@ async function updateStatusProduct(req, res) {
 async function destroy(req, res) {
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
+    await Notifications.destroy({
+      where: {
+        product_id: req.params.id,
+      }
+    })
     await Products.destroy({
       where: {
         id: req.params.id,
@@ -176,7 +181,6 @@ async function search(req, res) {
   }else{
     res.send("Product tidak ada") 
   }
-  
 }
 
 module.exports = {

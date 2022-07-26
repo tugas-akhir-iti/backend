@@ -72,7 +72,8 @@ async function findByUserId(req, res) {
 
 async function insert(req, res) {
   const uploadFoto = await cloudinaryConf.uploader.upload(
-    req.files.product_image.path
+    req.files.product_image.path, 
+    {folder: "ta-latif"}
   );
   const product = {
     product_name: req.fields.product_name,
@@ -99,7 +100,7 @@ async function update(req, res) {
   const checkIfProductExist = await Products.findByPk(req.params.id);
   if (checkIfProductExist) {
     const uploadFoto = req.files.product_image
-      ? await cloudinaryConf.uploader.upload(req.files.product_image.path)
+      ? await cloudinaryConf.uploader.upload(req.files.product_image.path, {folder: "ta-latif"})
       : null;
     const product = {
       product_name: req.fields.product_name,

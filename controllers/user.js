@@ -77,7 +77,7 @@ async function update(req, res) {
   const checkIfUserExist = await Users.findByPk(req.user.id);
   if (checkIfUserExist) {
     const uploadFoto = req.files.user_image
-      ? await cloudinaryConf.uploader.upload(req.files.user_image.path)
+      ? await cloudinaryConf.uploader.upload(req.files.user_image.path, {folder: "ta-latif"})
       : null;
     const user = {
       user_image: req.files.user_image

@@ -5,16 +5,16 @@ dotenv.config();
 
 module.exports = {
   development: {
-    username: "latif_project_fsw",
+    username: "jaenulatif",
     password: "root",
-    database: "second_hand",
+    database: "rumah-tani-local",
     host: "127.0.0.1",
     dialect: "postgres",
   },
   test: {
-    username: "perdly",
+    username: "jaenulatif",
     password: "root",
-    database: "second_hand_test",
+    database: "rumah-tani-local-test",
     host: "127.0.0.1",
     dialect: "postgres",
   },

@@ -16,6 +16,8 @@ router.get("/", productController.findAll);
 
 router.get("/:id", productController.findById);
 
+router.get("/questions/:id", productController.findQuestion);
+
 router.get("/categories/:id", productController.findByCategoryId);
 
 router.get("/user/id", middlewareVerifyToken, productController.findByUserId);
@@ -29,11 +31,24 @@ router.post(
   productController.insert
 );
 
+router.post(
+  "/questions",
+  middlewareVerifyToken,
+  productController.insertQuestion,
+);
+
+router.put(
+  "/questions/:id",
+  middlewareVerifyToken,
+  middlewareProfileIsComplete,
+  productController.updateQuestion,
+);
+
 router.put(
   "/:id",
   middlewareVerifyToken,
   middlewareProfileIsComplete,
-  productController.update
+  productController.update,
 );
 
 router.put(

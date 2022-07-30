@@ -39,7 +39,13 @@ db.users = require('./User.js')(sequelize, Sequelize);
 db.products = require('./Product.js')(sequelize, Sequelize);
 db.categories = require('./Category.js')(sequelize, Sequelize);
 db.orders = require('./Order.js')(sequelize, Sequelize);
+db.order_details = require('./order_detail.js')(sequelize, Sequelize);
 db.notifications = require('./Notification.js')(sequelize, Sequelize);
+db.banks = require('./Bank.js')(sequelize, Sequelize);
+db.roles = require('./Role.js')(sequelize, Sequelize);
+db.order_statuses = require('./order_status.js')(sequelize, Sequelize);
+db.questions = require('./Question.js')(sequelize, Sequelize);
+db.carts = require('./Cart.js')(sequelize, Sequelize);
 
 
 //call associate function
@@ -47,6 +53,12 @@ db.users.associate(db)
 db.products.associate(db)
 db.categories.associate(db)
 db.orders.associate(db)
+db.order_details.associate(db)
 db.notifications.associate(db)
+db.banks.associate(db)
+db.roles.associate(db)
+db.order_statuses.associate(db)
+db.questions.associate(db)
+db.carts.associate(db)
 
 module.exports = db;

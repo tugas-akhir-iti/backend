@@ -6,6 +6,8 @@ const Notifications = db.notifications;
 const Orders = db.orders;
 const Products = db.products;
 const Users = db.users;
+const Banks = db.banks;
+const Roles = db.roles;
 const Sequelize = require("sequelize");
 
 async function get(req, res) {
@@ -22,8 +24,10 @@ async function get(req, res) {
       user_regency: user.user_regency,
       user_address: user.user_address,
       user_phone: user.user_phone,
+      bank_id: user.bank_id,
+      user_rekening: user.user_rekening,
       user_image: user.user_image,
-      user_role: user.user_role,
+      role_id: user.role_id,
     };
     res.send({
       data: response,
@@ -31,53 +35,75 @@ async function get(req, res) {
   }
 }
 
-async function getNotications(req, res) {
-  const notifications = await Notifications.findAll({
-    include: [{ model: Users }, { model: Products }, { model: Orders }],
-    where: {
-      user_id: req.user.id,
-    },
-  });
+// async function getNotifications(req, res) {
+//   const notifications = await Notifications.findAll({
+//     include: [{ model: Users }, { model: Products }, { model: Orders }],
+//     where: {
+//       user_id: req.user.id,
+//     },
+//   });
+
+//   let response = [];
+//   notifications.forEach((data) => {
+//     response.push({
+//       id: data.id,
+//       notification_title: data.notification_title,
+//     })
+//   });
+
+//   res.send({
+//     data: response,
+//   });
+// }
+
+async function getBanks(req, res) {
+  const bank = await Banks.findAll();
   res.send({
-    data: notifications,
+    data: bank,
+  });
+}
+async function getRoles(req, res) {
+  const role = await Roles.findAll();
+  res.send({
+    data: role,
   });
 }
 
-async function getTransactionsHistory(req, res) {
-  const checkUser = await Users.findByPk(req.user.id);
-  const getProductsData = await Products.findAll({
-    where: {
-      user_id: req.user.id,
-    },
-  });
-  if (checkUser.user_role == 1) {
-    const transactionHistoryBuyer = await Orders.findAll({
-      include: [{ model: Products }],
-      where: {
-        user_id: req.user.id,
-      },
-    });
-    res.status(200).json({ data: transactionHistoryBuyer });
-  } else if (checkUser.user_role == 2) {
-    const productIds = [];
-    getProductsData.forEach((value) => {
-      productIds.push(value.id);
-    });
-    const transactionHistorySeller = await Orders.findAll({
-      include: [{ model: Products }],
-      where: {
-        product_id: { [Sequelize.Op.in]: productIds },
-      },
-    });
-    res.status(200).json({ data: transactionHistorySeller });
-  }
-}
+// async function getTransactionsHistory(req, res) {
+//   const checkUser = await Users.findByPk(req.user.id);
+//   const getProductsData = await Products.findAll({
+//     where: {
+//       user_id: req.user.id,
+//     },
+//   });
+//   if (checkUser.role_id == 2) {
+//     const transactionHistoryBuyer = await Orders.findAll({
+//       include: [{ model: Products }],
+//       where: {
+//         user_id: req.user.id,
+//       },
+//     });
+//     res.status(200).json({ data: transactionHistoryBuyer });
+//   } else if (checkUser.role_id == 1) {
+//     const productIds = [];
+//     getProductsData.forEach((value) => {
+//       productIds.push(value.id);
+//     });
+//     const transactionHistorySeller = await Orders.findAll({
+//       include: [{ model: Products }],
+//       where: {
+//         product_id: { [Sequelize.Op.in]: productIds },
+//       },
+//     });
+//     res.status(200).json({ data: transactionHistorySeller });
+//   }
+// }
 
 async function update(req, res) {
   const checkIfUserExist = await Users.findByPk(req.user.id);
   if (checkIfUserExist) {
     const uploadFoto = req.files.user_image
-      ? await cloudinaryConf.uploader.upload(req.files.user_image.path, {folder: "ta-latif"})
+      ? await cloudinaryConf.uploader.upload(req.files.user_image.path, {folder: "rumah-tani/users"})
       : null;
     const user = {
       user_image: req.files.user_image
@@ -87,6 +113,8 @@ async function update(req, res) {
       user_regency: req.fields.user_regency,
       user_address: req.fields.user_address,
       user_phone: req.fields.user_phone,
+      bank_id: req.fields.bank_id,
+      user_rekening: req.fields.user_rekening,
       user_province: req.fields.user_province,
     };
     await Users.update(user, {
@@ -113,7 +141,7 @@ async function create(req, res) {
   const user = {
     user_name: req.fields.user_name,
     user_email: req.fields.user_email,
-    user_role: req.fields.user_role,
+    role_id: req.fields.role_id,
     user_password: req.fields.user_password,
   };
 
@@ -122,7 +150,7 @@ async function create(req, res) {
     id: insertUser.id,
     user_name: insertUser.user_name,
     user_email: insertUser.user_email,
-    user_role: insertUser.user_role,
+    role_id: insertUser.role_id,
   };
   res.json(response);
 }
@@ -146,7 +174,7 @@ async function login(req, res) {
           id: isUserExist.id,
           user_name: isUserExist.user_name,
           user_email: isUserExist.user_email,
-          user_role: isUserExist.user_role,
+          role_id: isUserExist.role_id,
         },
         process.env.TOKEN_SECRET
       );
@@ -176,7 +204,9 @@ module.exports = {
   create,
   login,
   get,
-  getNotications,
-  getTransactionsHistory,
+  // getNotifications,
+  // getTransactionsHistory,
   update,
+  getBanks,
+  getRoles
 };

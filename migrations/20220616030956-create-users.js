@@ -9,13 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_name: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(50),
+        allowNull: false
       },
       user_email: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(100),
+        allowNull: false
       },
       user_password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       user_province: {
         type: Sequelize.STRING(50),
@@ -33,12 +36,33 @@ module.exports = {
         type: Sequelize.STRING(15),
         allowNull: true
       },
+      bank_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: {
+            tableName: 'Banks'
+          },
+          key: 'id',
+        } 
+      },
+      user_rekening: {
+        type: Sequelize.STRING(20),
+        allowNull: true
+      },
       user_image: {
         type: Sequelize.TEXT,
         allowNull: true
       },
-      user_role: {
-        type: Sequelize.INTEGER
+      role_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'Roles'
+          },
+          key: 'id',
+        } 
       },
       createdAt: {
         allowNull: false,

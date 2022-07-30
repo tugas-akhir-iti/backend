@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const cors = require("cors");
-const orderController = require("../controllers/order");
+const cartController = require("../controllers/cart");
 const middlewareVerifyToken = require("../middlewares/verifyToken");
 const middlewareProfileIsComplete = require("../middlewares/profileIsComplete");
 
@@ -12,36 +12,27 @@ var corsOptions = {
 
 router.use(cors(corsOptions));
 
-router.get('/', middlewareVerifyToken, orderController.findAll);
-
-router.get('/order-status/', orderController.findAllOrderStatuses);
+router.get(
+  '/',
+  middlewareVerifyToken,
+  cartController.findCartByUserId);
 
 router.post(
   "/",
   middlewareVerifyToken,
-  middlewareProfileIsComplete,
-  orderController.insertOrder
-);
-
-router.post(
-  "/order-detail/",
-  middlewareVerifyToken,
-  middlewareProfileIsComplete,
-  orderController.insertOrderDetail
+  cartController.insert
 );
 
 router.put(
   "/:id",
   middlewareVerifyToken,
-  middlewareProfileIsComplete,
-  orderController.updateStatus,
+  cartController.update
 );
 
-router.put(
-  "/order-transfer/:id",
+router.delete(
+  "/:id",
   middlewareVerifyToken,
-  middlewareProfileIsComplete,
-  orderController.updateOrderTransfer,
+  cartController.destroy
 );
 
 module.exports = router;

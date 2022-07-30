@@ -12,16 +12,21 @@ var corsOptions = {
 router.use(cors(corsOptions));
 
 router.get("/", middlewareVerifyToken, userController.get);
-router.get(
-  "/notifications",
-  middlewareVerifyToken,
-  userController.getNotications
-);
-router.get(
-  "/transactions",
-  middlewareVerifyToken,
-  userController.getTransactionsHistory
-);
+
+router.get("/banks", userController.getBanks);
+
+router.get("/roles", userController.getRoles);
+
+// router.get(
+//   "/notifications",
+//   middlewareVerifyToken,
+//   userController.getNotifications
+// );
+// router.get(
+//   "/transactions",
+//   middlewareVerifyToken,
+//   userController.getTransactionsHistory
+// );
 router.post("/", userController.create);
 router.put("/", middlewareVerifyToken, userController.update);
 router.post("/login", userController.login);

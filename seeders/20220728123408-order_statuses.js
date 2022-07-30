@@ -2,23 +2,33 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Categories', [
+    return queryInterface.bulkInsert('Order_Statuses', [
       {
-        category_name: 'Sayuran',
+        status_name: 'Cek Stok Barang',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        category_name: 'Buah-Buahan',
+        status_name: 'Diterima',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        category_name: 'Rempah',
+        status_name: 'Dikirim',
         createdAt: new Date(),
         updatedAt: new Date()
       },
-  ])
+      {
+        status_name: 'Selesai',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        status_name: 'Dibatalkan',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+    ]);
   },
 
   async down (queryInterface, Sequelize) {

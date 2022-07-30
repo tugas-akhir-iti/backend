@@ -6,11 +6,6 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       this.hasMany(models.Product, {
         foreignKey: "user_id",
@@ -20,6 +15,18 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.hasMany(models.Notification, {
         foreignKey: "user_id",
+      });
+      this.hasMany(models.Question, {
+        foreignKey: "user_id",
+      });
+      this.hasMany(models.Cart, {
+        foreignKey: "user_id",
+      });
+      this.belongsTo(models.Bank, {
+        foreignKey: "bank_id",
+      });
+      this.belongsTo(models.Role, {
+        foreignKey: "role_id",
       });
     }
   }
@@ -31,8 +38,10 @@ module.exports = (sequelize, DataTypes) => {
     user_regency: DataTypes.STRING,
     user_address: DataTypes.TEXT,
     user_phone: DataTypes.STRING,
+    bank_id: DataTypes.INTEGER,
+    user_rekening: DataTypes.STRING,
     user_image: DataTypes.TEXT,
-    user_role: DataTypes.INTEGER,
+    role_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: "User",

@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      order_price: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       order_transfer_image: {
         type: Sequelize.STRING,
         allowNull: true

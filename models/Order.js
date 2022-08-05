@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Order.init({
+    order_price: DataTypes.INTEGER,
     order_transfer_image: DataTypes.STRING,
     status_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER

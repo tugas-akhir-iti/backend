@@ -9,10 +9,20 @@ const Users = db.users;
 const Banks = db.banks;
 
 async function findAll(req, res) {
-  const products = await Orders.findAll({
+  
+  const order = await Orders.findAll({
     include: [
       {
-        model: Order_Details,
+        model: Order_Details, 
+        include: [{
+          model: Products,
+          include: [{
+            model: Users,
+            include: [{
+              model: Banks,
+            }]
+          }]
+        }]
       },
       {
         model: Order_Statuses,
@@ -22,27 +32,45 @@ async function findAll(req, res) {
       user_id:req.user.id,
     }
   });
-
-  //get user_product_id
-  const product_id = await Products.findByPk(products[0].Order_Details[0].product_id);
-  //get product name
-  const product_owner = await Users.findByPk(product_id.user_id,{
-    include: [
-      {model: Banks}
-    ]
-  });
-
-  const res_user_product = {
-    product_owner_name: product_owner.user_name,
-    product_owner_regency: product_owner.user_regency,
-    product_owner_rekening: product_owner.user_rekening,
-    product_owner_phone: product_owner.user_phone,
-    product_owner_bank: product_owner.Bank.bank_name,
+  
+  let response=[];
+  let num_loop = 0;
+  order.forEach((data) => {
+    
+    if(data.Order_Details != null){
+    response.push({
+        id: data.id,
+        order_transfer_image: data.order_transfer_image,
+        order_price: data.order_price,
+        order_status: data.Order_Status.status_name,
+        product_owner_name: data.Order_Details[0].Product.User.user_name,
+        product_owner_regency: data.Order_Details[0].Product.User.user_regency,
+        product_owner_bank: data.Order_Details[0].Product.User.Bank,
+        product_owner_rekening: data.Order_Details[0].Product.User.user_rekening,
+        product_owner_phone: data.Order_Details[0].Product.User.user_phone,
+        product_order:[],
+      })
+    
+    
+    ord_detail = data.Order_Details;
+    ord_detail.forEach((data)=>{
+      response[num_loop].product_order.push({
+        product_name:data.Product.product_name,
+        product_image:data.Product.product_image,
+        order_qty:data.order_detail_qty,
+      })
+    })
+    
+    num_loop += 1;
+  }else{
+    res.send({message:"Order detail not found"})
   }
+  });
+  
 
   res.send({
-    product_owner: res_user_product,
-    order : products,
+    order: response,
+    // order : order[0].Order_Details[0].Product.User.Bank.bank_name,
   });
 }
 
@@ -57,6 +85,7 @@ async function insertOrder(req, res) {
   const order = {
     status_id: 1,
     user_id: req.user.id,
+    order_price: req.fields.order_price,
   };
 
   const createOrder = await Orders.create(order);
@@ -79,6 +108,7 @@ async function insertOrder(req, res) {
 
   res.send({
     message: "Order berhasil",
+    id: createOrder.id
   });
 }
 
@@ -86,7 +116,6 @@ async function insertOrderDetail(req, res) {
 
   const order_detail = {
     order_detail_qty: req.fields.order_detail_qty,
-    order_detail_price: req.fields.order_detail_price,
     product_id: req.fields.product_id,
     order_id: req.fields.order_id,
   };

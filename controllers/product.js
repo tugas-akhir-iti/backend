@@ -114,7 +114,8 @@ async function findQuestion(req, res) {
 
   if(questions == ""){
     res.send({
-      message: "Tidak ada pertanyaan"
+      message: "Tidak ada pertanyaan",
+      data: []
     });
   } else {
 
@@ -134,7 +135,8 @@ async function findQuestion(req, res) {
           answare: data.answare,
           user_name_question: data.User.user_name,
           user_image_question: data.User.user_image,
-          user_name_prd: product_owner.User.user_name,
+          user_name_product: product_owner.User.user_name,
+          user_image_product: product_owner.User.user_image,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           })

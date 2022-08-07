@@ -35,17 +35,19 @@ async function findAll(req, res) {
   
   let response=[];
   let num_loop = 0;
+
   order.forEach((data) => {
     
-    if(data.Order_Details != null){
+    if(data.Order_Details != []){
     response.push({
         id: data.id,
+        createdAt: data.createdAt,
         order_transfer_image: data.order_transfer_image,
         order_price: data.order_price,
         order_status: data.Order_Status.status_name,
         product_owner_name: data.Order_Details[0].Product.User.user_name,
         product_owner_regency: data.Order_Details[0].Product.User.user_regency,
-        product_owner_bank: data.Order_Details[0].Product.User.Bank,
+        product_owner_bank: data.Order_Details[0].Product.User.Bank.bank_name,
         product_owner_rekening: data.Order_Details[0].Product.User.user_rekening,
         product_owner_phone: data.Order_Details[0].Product.User.user_phone,
         product_order:[],
@@ -56,6 +58,7 @@ async function findAll(req, res) {
     ord_detail.forEach((data)=>{
       response[num_loop].product_order.push({
         product_name:data.Product.product_name,
+        product_price:data.Product.product_price,
         product_image:data.Product.product_image,
         order_qty:data.order_detail_qty,
       })
@@ -69,8 +72,9 @@ async function findAll(req, res) {
   
 
   res.send({
-    order: response,
-    // order : order[0].Order_Details[0].Product.User.Bank.bank_name,
+    // order: order,
+    order : response,
+    // order : order[0].Order_Details[0].Product.User.user_name,
   });
 }
 

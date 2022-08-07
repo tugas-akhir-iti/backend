@@ -17,6 +17,11 @@ router.get(
   middlewareVerifyToken,
   cartController.findCartByUserId);
 
+router.get(
+  '/:id',
+  middlewareVerifyToken,
+  cartController.findCartByUserIdCartId);
+
 router.post(
   "/",
   middlewareVerifyToken,

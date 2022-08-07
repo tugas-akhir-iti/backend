@@ -70,6 +70,93 @@ async function findCartByUserId(req, res) {
   }
 }
 
+async function findCartByUserIdCartId(req, res) {
+  // const carts = await Carts.findAll({
+  //   include:[
+  //     {
+  //         model: Products,
+  //         include:[{
+  //           model: Users
+  //         }]
+  //     }
+  // ],
+  // where:{
+  //   user_id:req.params.id,
+  // },
+  // })
+
+  const cart = await Carts.findAll({
+    where:{
+      user_id:req.user.id
+  },
+    include:[
+        {
+            model: Products,
+            include:[{
+              model: Users
+            }]
+        }
+    ],
+  });
+
+  // cek user product
+  let user = []
+  //push data user_product
+  let user_product = []
+  cart.forEach((data) => {
+    //includes() is not supported in Internet Explorer or Edge 13 (or earlier).
+    if(!user.includes(data.Product.User.user_name)){
+      user.push(data.Product.User.user_name)
+      user_product.push({
+        product_owner_id: data.Product.User.id,
+        product_owner_name: data.Product.User.user_name,
+        product_owner_regency: data.Product.User.user_regency
+      })
+    }
+  });
+  
+  let response=[]
+  let num_loop = 0
+  user_product.forEach((data) => {
+    if(data.product_owner_id == req.params.id){
+      response.push({
+        product_owner_id: data.product_owner_id,
+        product_owner_name: data.product_owner_name,
+        product_owner_regency: data.product_owner_regency,
+        product_cart:[]
+      })
+
+
+      cart.forEach((data) => {
+        if(response[num_loop].product_owner_id == data.Product.user_id){
+          response[num_loop].product_cart.push({
+            cart_id: data.id,
+            product_id: data.Product.id,
+            product_name: data.Product.product_name,
+            product_image: data.Product.product_image,
+            product_price: data.Product.product_price,
+            product_min_order: data.Product.product_min_order,
+            product_stock: data.Product.product_stock,
+            cart_qty: data.cart_qty,
+          })
+        }
+      })
+  
+      num_loop += 1
+    }
+    
+
+    
+  })
+
+  res.send({
+    cart : response
+  });
+  if(cart==null){
+    res.send({message:"Cart kosong", data:[]})
+  }
+}
+
 async function insert(req, res) {
   const cart = {
     cart_qty: req.fields.cart_qty,
@@ -134,5 +221,6 @@ module.exports = {
   insert,
   update,
   destroy,
-  findCartByUserId
+  findCartByUserId,
+  findCartByUserIdCartId
 };

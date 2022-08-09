@@ -35,6 +35,41 @@ async function findAll(req, res) {
   });
 }
 
+async function findAllProductSellerId(req, res) {
+  const products = await Products.findAll({
+    include: [
+      {
+        model: Users,
+      },
+    ],
+    where: {user_id: req.params.id}
+  });
+
+  let response = [];
+  products.forEach((data) => {
+    response.push({
+        id: data.id,
+        product_name: data.product_name,
+        product_price: data.product_price,
+        product_stock: data.product_stock,
+        product_min_order: data.product_min_order,
+        product_image: data.product_image,
+        user_regency: data.User.user_regency,
+        })
+  });
+
+  if(response != []){
+    res.send({
+      data: response,
+    });
+  }else{
+    res.send({
+      message: "Data tidak nampak",
+    }); 
+  }
+  
+}
+
 async function findById(req, res) {
   const product = await Products.findByPk(req.params.id, {
     include: [{ model: Users }],
@@ -356,5 +391,6 @@ module.exports = {
   search,
   findQuestion,
   insertQuestion,
-  updateQuestion
+  updateQuestion,
+  findAllProductSellerId
 };

@@ -2,7 +2,7 @@ const cloudinaryConf = require("../config/cloudinary");
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
-const Notifications = db.notifications;
+// const Notifications = db.notifications;
 const Orders = db.orders;
 const Products = db.products;
 const Users = db.users;
@@ -29,6 +29,28 @@ async function get(req, res) {
       user_image: user.user_image,
       role_id: user.role_id,
     };
+    res.send({
+      data: response,
+    });
+  }
+}
+
+async function getById(req, res) {
+  const user = await Users.findByPk(req.params.id);
+  if (user == null) {
+    res.send({
+      message: "User tidak ada",
+    });
+  } else {
+    const response = {
+      user_id: user.id,
+      user_name: user.user_name,
+      user_province: user.user_province,
+      user_regency: user.user_regency,
+      user_address: user.user_address,
+      user_phone: user.user_phone,
+      user_image: user.user_image,
+    }
     res.send({
       data: response,
     });
@@ -208,5 +230,6 @@ module.exports = {
   // getTransactionsHistory,
   update,
   getBanks,
-  getRoles
+  getRoles,
+  getById
 };

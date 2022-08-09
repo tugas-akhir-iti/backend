@@ -13,6 +13,8 @@ router.use(cors(corsOptions));
 
 router.get("/", middlewareVerifyToken, userController.get);
 
+router.get("/:id", userController.getById);
+
 router.get("/banks", userController.getBanks);
 
 router.get("/roles", userController.getRoles);

@@ -14,6 +14,8 @@ router.use(cors(corsOptions));
 
 router.get('/', middlewareVerifyToken, orderController.findAll);
 
+router.get('/seller', middlewareVerifyToken, middlewareProfileIsComplete,orderController.findAllSellerOrder);
+
 router.get('/order-status/', orderController.findAllOrderStatuses);
 
 router.post(

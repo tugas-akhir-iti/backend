@@ -14,6 +14,8 @@ router.use(cors(corsOptions));
 
 router.get("/", productController.findAll);
 
+router.get("/seller/:id", productController.findAllProductSellerId);
+
 router.get("/:id", productController.findById);
 
 router.get("/questions/:id", productController.findQuestion);

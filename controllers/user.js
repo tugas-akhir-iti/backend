@@ -190,6 +190,7 @@ async function login(req, res) {
       isUserExist.user_password
     );
     if (isPasswordTrue) {
+      const role_id = isUserExist.role_id
       //generate token
       const token = jwt.sign(
         {
@@ -203,6 +204,7 @@ async function login(req, res) {
       res.json({
         status: 200,
         token,
+        role_id,
       });
       return;
     }
@@ -210,6 +212,7 @@ async function login(req, res) {
     res.json({
       status: 400,
       message: "password is wrong",
+      password: "incorect",
     });
     return;
   }
@@ -218,6 +221,7 @@ async function login(req, res) {
   res.json({
     status: 400,
     message: "user not found",
+    user: null,
   });
   return;
 }

@@ -30,7 +30,8 @@ async function findAll(req, res) {
     ],
     where: {
       user_id:req.user.id,
-    }
+    },
+    order: [['createdAt', 'DESC']],
   });
   
   let response=[];
@@ -91,6 +92,7 @@ async function findAllSellerOrder(req, res) {
       },
       {model: Users}
     ],
+    order: [['createdAt', 'DESC']],
   });
   
   let response=[];

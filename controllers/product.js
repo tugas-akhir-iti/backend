@@ -87,6 +87,7 @@ async function findById(req, res) {
       product_min_order: product.product_min_order,
       product_image: product.product_image,
       product_description: product.product_description,
+      category_id: product.category_id,
       user_id: product.User.id,
       user_name: product.User.user_name,
       user_image: product.User.user_image,

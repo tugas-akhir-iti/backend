@@ -146,6 +146,7 @@ async function findQuestion(req, res) {
     where: {
       product_id: req.params.id,
     },
+    order: [['createdAt', 'ASC']],
   });
 
   if(questions == ""){

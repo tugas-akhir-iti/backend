@@ -11,9 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.Order_Status, {
         foreignKey: 'status_id'
       });
-      Order.hasMany(models.Notification, {
-        foreignKey: 'order_id'
-      });
+
       Order.hasMany(models.Order_Detail, {
         foreignKey: 'order_id'
       });

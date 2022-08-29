@@ -50,6 +50,10 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: true
       },
+      user_rekening_name: {
+        type: Sequelize.STRING(50),
+        allowNull: true
+      },
       user_image: {
         type: Sequelize.TEXT,
         allowNull: true

@@ -7,6 +7,7 @@ const Order_Statuses = db.order_statuses;
 const Order_Details = db.order_details;
 const Users = db.users;
 const Banks = db.banks;
+const Notification = db.notifications;
 
 async function findAll(req, res) {
   
@@ -46,6 +47,7 @@ async function findAll(req, res) {
         order_transfer_image: data.order_transfer_image,
         order_price: data.order_price,
         order_status: data.Order_Status.status_name,
+        petani_id: data.Order_Details[0].Product.User.id,
         product_owner_name: data.Order_Details[0].Product.User.user_name,
         product_owner_regency: data.Order_Details[0].Product.User.user_regency,
         product_owner_bank: data.Order_Details[0].Product.User.Bank.bank_name,
@@ -108,6 +110,7 @@ async function findAllSellerOrder(req, res) {
         order_transfer_image: data.order_transfer_image,
         order_price: data.order_price,
         order_status: data.Order_Status.status_name,
+        pasar_id: data.User.id,
         order_name: data.User.user_name,
         order_regency: data.User.user_regency,
         order_province: data.User.user_province,
@@ -150,6 +153,31 @@ async function findAllOrderStatuses(req, res) {
   });
 }
 
+async function findNotif(req, res) {
+  const notifications = await Notification.findAll({
+    where: {
+      user_id:req.user.id,
+    },
+    order: [['createdAt', 'DESC']],
+  });
+
+  res.send({
+    notif: notifications,
+  });
+}
+
+async function updateNotif(req, res) {
+  await Notification.update({"mark_as_read":true},{
+    where: {
+      id: req.params.id
+    }
+  })
+
+  res.send({
+    message:"mark as read true"
+  })
+}
+
 async function insertOrder(req, res) {
   const order = {
     status_id: 1,
@@ -158,22 +186,25 @@ async function insertOrder(req, res) {
   };
 
   const createOrder = await Orders.create(order);
-
-  // const getUserId = await Products.findOne({
-  //   where: {
-  //     id: req.fields.product_id,
-  //   },
-  // });
   
-  // const notification = {
-  //   notification_title: "Order produk!!! petani sedang mengecek stok barang. Harap di tunggu sampai pesanan diterima.",
-  //   user_id: getUserId.user_id,
-  //   product_id: req.fields.product_id,
-  //   order_id: createOrder.id,
-  //   mark_as_read: false,
-  // };
+  const notificationPasar = {
+    notification_title: "Yeayy, kamu berhasil memesan produk!!",
+    notification_desc: "Petani sedang mengecek pesananmu. Harap di tunggu sampai pesanan diterima.",
+    notification_link: "/transaction",
+    mark_as_read: false,
+    user_id: req.user.id,
+  };
 
-  // await Notifications.create(notification);
+  const notificationPetani = {
+    notification_title: "Horeee produkmu ada yang pesan :)",
+    notification_desc:  "Produkmu ada yang pesan, segera cek barang dan update status pesananmu",
+    notification_link: "/transaction",
+    mark_as_read: false,
+    user_id: req.fields.product_user_id,
+  };
+
+  await Notification.create(notificationPasar);
+  await Notification.create(notificationPetani);
 
   res.send({
     message: "Order berhasil",
@@ -208,28 +239,99 @@ async function updateStatus(req, res) {
       },
     });
 
-    // let notification_title="";
-    // if(order.status_id==2){
-    //   notification_title="Order diterima, silahkan bayar ke nomer rekening tertera";
-    // }
-    // else if(order.status_id==3){
-    //   notification_title="Order dikirim, harap menunggu";
-    // }
-    // else if(order.status_id==4){
-    //   notification_title="Order selesai, terimakasih sudah berbelanja";
-    // }
-    // else if(order.status_id==5){
-    //   notification_title="Order dibatalakan";
-    // }
+    let notificationPasar = {};
+    let notificationPetani = {};
+    if(order.status_id==2){
+      notificationPasar = {
+        notification_title:"Pesananmu diterima oleh petani :)",
+        notification_desc:"Untuk melanjutkan transaksi, silahkan bayar ke nomer rekening tertera",
+        notification_link:"/transaction",
+        mark_as_read: false,
+        user_id: req.fields.user_id,
+      }
 
-    // const notification = {
-    //   notification_title: notification_title,
-    //   user_id: checkIfOrderExist.user_id,
-    //   product_id: checkIfOrderExist.product_id,
-    //   order_id: checkIfOrderExist.id,
-    //   mark_as_read: false,
-    // };
-    // await Notifications.create(notification);
+      notificationPetani = {
+        notification_title:"Kamu telah menerima pesanan :)",
+        notification_desc:"Harap menunggu pasar untuk melakukan pembayaran",
+        notification_link:"/transaction",
+        mark_as_read: false,
+        user_id: req.user.id,
+      }
+    }
+    else if(order.status_id==3){
+      notificationPasar = {
+        notification_title:"Pesananmu dikirim oleh petani :)",
+        notification_desc:"Pasananmu sedang dikirim dalam perjalanan, harap menunggu",
+        notification_link:"/transaction",
+        mark_as_read: false,
+        user_id: req.fields.user_id,
+      }
+
+      notificationPetani = {
+        notification_title:"Kamu telah mengirim pesanan :)",
+        notification_desc:"Pastikan produk yang dikirim sudah sesuai pesanan",
+        notification_link:"/transaction",
+        mark_as_read: false,
+        user_id: req.user.id,
+      }
+    }
+    else if(order.status_id==4){
+      const user = await Users.findByPk(req.user.id);
+
+      if(user.role_id == 1){
+        notificationPasar = {
+          notification_title:" Yeayyy pesanan mu selesai :)",
+          notification_desc:"Pesananmu telah selesai, ayoo order produk lagi",
+          notification_link:"/transaction",
+          mark_as_read: false,
+          user_id: req.fields.user_id,
+        }
+
+        notificationPetani = {
+          notification_title:"Hore pesanan mu telah selesai :)",
+          notification_desc:"Terimakasi sudah melayani pelanggang dengan baik",
+          notification_link:"/transaction",
+          mark_as_read: false,
+          user_id: req.user.id,
+        }
+      }else if(user.role_id==2){
+        notificationPasar = {
+          notification_title:"Yeayyy pesanan mu selesai :)",
+          notification_desc:"Pesananmu telah selesai, ayoo order produk lagi",
+          notification_link:"/transaction",
+          mark_as_read: false,
+          user_id: req.user.id,
+        }
+
+        notificationPetani = {
+          notification_title:"Hore pesanan mu telah selesai :)",
+          notification_desc:"Terimakasi sudah melayani pelanggang dengan baik",
+          notification_link:"/transaction",
+          mark_as_read: false,
+          user_id: req.fields.user_id,
+        }
+      }
+    }
+    else if(order.status_id==5){
+      notificationPasar = {
+        notification_title:"Yahh pesananmu di batalkan :(",
+        notification_desc:"Pasananmu telah dibatalkan, yuk order lagi",
+        notification_link:"/transaction",
+        mark_as_read: false,
+        user_id: req.user.id,
+      }
+
+      notificationPetani = {
+        notification_title:"Pesananmu dibatalkan :(",
+        notification_desc:"Yuk tingkatkan pelayanan mu agar pasar bisa repeat order",
+        notification_link:"/transaction",
+        mark_as_read: false,
+        user_id: req.fields.user_id,
+      }
+    }
+    
+    await Notification.create(notificationPasar);
+    await Notification.create(notificationPetani);
     res.send({
       message: `Data order berhasil diupdate ${order.status_id}`,
     });
@@ -257,28 +359,25 @@ async function updateOrderTransfer(req, res) {
       },
     });
     
-    // let notification_title="";
-    // if(order.status_id==2){
-    //   notification_title="Order diterima, silahkan bayar ke nomer rekening tertera";
-    // }
-    // else if(order.status_id==3){
-    //   notification_title="Order dikirim, harap menunggu";
-    // }
-    // else if(order.status_id==4){
-    //   notification_title="Order selesai, terimakasih sudah berbelanja";
-    // }
-    // else if(order.status_id==5){
-    //   notification_title="Order dibatalakan";
-    // }
+    notificationPasar = {
+      notification_title:"Yaeyy kamu berhasil upload bukti transaksi :)",
+      notification_desc:"Petani akan segara mengirim produk mu",
+      notification_link:"/transaction",
+      mark_as_read: false,
+      user_id: req.user.id,
+    }
 
-    // const notification = {
-    //   notification_title: notification_title,
-    //   user_id: checkIfOrderExist.user_id,
-    //   product_id: checkIfOrderExist.product_id,
-    //   order_id: checkIfOrderExist.id,
-    //   mark_as_read: false,
-    // };
-    // await Notifications.create(notification);
+    notificationPetani = {
+      notification_title:"Yeay bukti transaksi berhasil diupload :)",
+      notification_desc:"Cek nominal transaksi dan segera kirim pesanan",
+      notification_link:"/transaction",
+      mark_as_read: false,
+      user_id: req.fields.user_id,
+    }
+
+    
+    await Notification.create(notificationPasar);
+    await Notification.create(notificationPetani);
     
     res.send({
       message: `Bukti transfer berhasil di upload`,
@@ -297,5 +396,7 @@ module.exports = {
   updateOrderTransfer,
   updateStatus,
   findAllOrderStatuses,
-  findAllSellerOrder
+  findAllSellerOrder,
+  findNotif,
+  updateNotif,
 };

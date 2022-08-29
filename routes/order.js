@@ -18,6 +18,8 @@ router.get('/seller', middlewareVerifyToken, middlewareProfileIsComplete,orderCo
 
 router.get('/order-status/', orderController.findAllOrderStatuses);
 
+router.get('/notification/', middlewareVerifyToken, orderController.findNotif);
+
 router.post(
   "/",
   middlewareVerifyToken,
@@ -44,6 +46,12 @@ router.put(
   middlewareVerifyToken,
   middlewareProfileIsComplete,
   orderController.updateOrderTransfer,
+);
+
+router.put(
+  "/notification/:id",
+  middlewareVerifyToken,
+  orderController.updateNotif,
 );
 
 module.exports = router;

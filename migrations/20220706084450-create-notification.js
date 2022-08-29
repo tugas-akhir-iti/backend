@@ -9,7 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       notification_title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      notification_desc: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
+      },
+      notification_link: {
+        type: Sequelize.STRING(255),
+        allowNull: true,
+      },
+      mark_as_read: {
+        type: Sequelize.BOOLEAN
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -20,29 +32,6 @@ module.exports = {
           },
           key: 'id',
         }
-      },
-      product_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'Products'
-          },
-          key: 'id',
-        }
-      },
-      order_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: {
-            tableName: 'Orders'
-          },
-          key: 'id',
-        }
-      },
-      mark_as_read: {
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

@@ -46,6 +46,7 @@ db.roles = require('./Role.js')(sequelize, Sequelize);
 db.order_statuses = require('./order_status.js')(sequelize, Sequelize);
 db.questions = require('./Question.js')(sequelize, Sequelize);
 db.carts = require('./Cart.js')(sequelize, Sequelize);
+db.notifications = require('./Notification.js')(sequelize, Sequelize);
 
 
 //call associate function
@@ -60,5 +61,6 @@ db.roles.associate(db)
 db.order_statuses.associate(db)
 db.questions.associate(db)
 db.carts.associate(db)
+db.notifications.associate(db)
 
 module.exports = db;

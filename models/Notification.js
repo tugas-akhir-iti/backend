@@ -9,22 +9,14 @@ module.exports = (sequelize, DataTypes) => {
       Notification.belongsTo(models.User, {
         foreignKey: 'user_id'
       });
-
-      Notification.belongsTo(models.Product, {
-        foreignKey: 'product_id'
-      });
-
-      Notification.belongsTo(models.Order, {
-        foreignKey: 'order_id'
-      });
     }
   }
   Notification.init({
     notification_title: DataTypes.STRING,
+    notification_desc: DataTypes.STRING,
+    notification_link: DataTypes.STRING,
+    mark_as_read: DataTypes.BOOLEAN,
     user_id: DataTypes.INTEGER,
-    product_id: DataTypes.INTEGER,
-    order_id: DataTypes.INTEGER,
-    mark_as_read: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Notification',

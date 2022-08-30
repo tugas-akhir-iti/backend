@@ -45,7 +45,9 @@ async function findAll(req, res) {
         id: data.id,
         createdAt: data.createdAt,
         order_transfer_image: data.order_transfer_image,
+        order_delivery_price: data.order_delivery_price,
         order_price: data.order_price,
+        delivery_id: data.delivery_id,
         order_status: data.Order_Status.status_name,
         petani_id: data.Order_Details[0].Product.User.id,
         product_owner_name: data.Order_Details[0].Product.User.user_name,
@@ -108,7 +110,9 @@ async function findAllSellerOrder(req, res) {
         // owner_product_id: data.Order_Details[0].Product.user_id,
         createdAt: data.createdAt,
         order_transfer_image: data.order_transfer_image,
+        order_delivery_price: data.order_delivery_price,
         order_price: data.order_price,
+        delivery_id: data.delivery_id,
         order_status: data.Order_Status.status_name,
         pasar_id: data.User.id,
         order_name: data.User.user_name,
@@ -180,9 +184,11 @@ async function updateNotif(req, res) {
 
 async function insertOrder(req, res) {
   const order = {
+    order_delivery_price: req.fields.order_delivery_price,
+    order_price: req.fields.order_price,
     status_id: 1,
     user_id: req.user.id,
-    order_price: req.fields.order_price,
+    delivery_id: req.fields.delivery_id,
   };
 
   const createOrder = await Orders.create(order);
@@ -342,6 +348,21 @@ async function updateStatus(req, res) {
   }
 }
 
+async function updateDeliveryPrice(req, res) {
+  const checkIfOrderExist = await Orders.findByPk(req.params.id);
+  if (checkIfOrderExist) {
+    const order = {
+      order_delivery_price: req.fields.order_delivery_price,
+    };
+    await Orders.update(order, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.send({"message":"berhasil"})
+  }
+}
+
 async function updateOrderTransfer(req, res) {
   const checkIfOrderExist = await Orders.findByPk(req.params.id);
   if (checkIfOrderExist) {
@@ -399,4 +420,5 @@ module.exports = {
   findAllSellerOrder,
   findNotif,
   updateNotif,
+  updateDeliveryPrice,
 };

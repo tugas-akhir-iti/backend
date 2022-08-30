@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     bank_id: DataTypes.INTEGER,
     user_rekening: DataTypes.STRING,
     user_rekening_name: DataTypes.STRING,
-    user_image: DataTypes.TEXT,
+    user_image: DataTypes.STRING,
     role_id: DataTypes.INTEGER,
   }, {
     sequelize,

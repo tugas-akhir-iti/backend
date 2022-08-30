@@ -55,7 +55,7 @@ module.exports = {
         allowNull: true
       },
       user_image: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING(255),
         allowNull: true
       },
       role_id: {

@@ -11,17 +11,21 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.Order_Status, {
         foreignKey: 'status_id'
       });
-
+      Order.belongsTo(models.Delivery, {
+        foreignKey: 'delivery_id'
+      });
       Order.hasMany(models.Order_Detail, {
         foreignKey: 'order_id'
       });
     }
   }
   Order.init({
+    order_delivery_price: DataTypes.INTEGER,
     order_price: DataTypes.INTEGER,
     order_transfer_image: DataTypes.STRING,
     status_id: DataTypes.INTEGER,
-    user_id: DataTypes.INTEGER
+    user_id: DataTypes.INTEGER,
+    delivery_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Order',

@@ -49,6 +49,13 @@ router.put(
 );
 
 router.put(
+  "/order-delivery/:id",
+  middlewareVerifyToken,
+  middlewareProfileIsComplete,
+  orderController.updateDeliveryPrice,
+);
+
+router.put(
   "/notification/:id",
   middlewareVerifyToken,
   orderController.updateNotif,

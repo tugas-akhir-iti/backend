@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
       },
       product_image: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: false,
       },
       product_available: {

@@ -17,7 +17,7 @@ module.exports = {
         allowNull: false,
       },
       notification_link: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING(50),
         allowNull: true,
       },
       mark_as_read: {

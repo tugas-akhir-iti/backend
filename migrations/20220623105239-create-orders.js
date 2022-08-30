@@ -8,12 +8,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      order_delivery_price: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
       order_price: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
       order_transfer_image: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: true
       },
       status_id: {
@@ -32,6 +36,16 @@ module.exports = {
         references: {
           model:{
             tableName: 'Users'
+          },
+          key: 'id'
+        }
+      },
+      delivery_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model:{
+            tableName: 'Deliveries'
           },
           key: 'id'
         }

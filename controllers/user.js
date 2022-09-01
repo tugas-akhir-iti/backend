@@ -26,6 +26,7 @@ async function get(req, res) {
       user_phone: user.user_phone,
       bank_id: user.bank_id,
       user_rekening: user.user_rekening,
+      user_rekening_name: user.user_rekening_name,
       user_image: user.user_image,
       role_id: user.role_id,
     };
@@ -57,26 +58,6 @@ async function getById(req, res) {
   }
 }
 
-// async function getNotifications(req, res) {
-//   const notifications = await Notifications.findAll({
-//     include: [{ model: Users }, { model: Products }, { model: Orders }],
-//     where: {
-//       user_id: req.user.id,
-//     },
-//   });
-
-//   let response = [];
-//   notifications.forEach((data) => {
-//     response.push({
-//       id: data.id,
-//       notification_title: data.notification_title,
-//     })
-//   });
-
-//   res.send({
-//     data: response,
-//   });
-// }
 
 async function getBanks(req, res) {
   const bank = await Banks.findAll();
@@ -90,36 +71,6 @@ async function getRoles(req, res) {
     data: role,
   });
 }
-
-// async function getTransactionsHistory(req, res) {
-//   const checkUser = await Users.findByPk(req.user.id);
-//   const getProductsData = await Products.findAll({
-//     where: {
-//       user_id: req.user.id,
-//     },
-//   });
-//   if (checkUser.role_id == 2) {
-//     const transactionHistoryBuyer = await Orders.findAll({
-//       include: [{ model: Products }],
-//       where: {
-//         user_id: req.user.id,
-//       },
-//     });
-//     res.status(200).json({ data: transactionHistoryBuyer });
-//   } else if (checkUser.role_id == 1) {
-//     const productIds = [];
-//     getProductsData.forEach((value) => {
-//       productIds.push(value.id);
-//     });
-//     const transactionHistorySeller = await Orders.findAll({
-//       include: [{ model: Products }],
-//       where: {
-//         product_id: { [Sequelize.Op.in]: productIds },
-//       },
-//     });
-//     res.status(200).json({ data: transactionHistorySeller });
-//   }
-// }
 
 async function update(req, res) {
   const checkIfUserExist = await Users.findByPk(req.user.id);
@@ -230,8 +181,6 @@ module.exports = {
   create,
   login,
   get,
-  // getNotifications,
-  // getTransactionsHistory,
   update,
   getBanks,
   getRoles,

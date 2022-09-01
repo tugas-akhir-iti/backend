@@ -1,5 +1,6 @@
 const db = require("../models");
 const cloudinaryConf = require("../config/cloudinary");
+const { orders } = require("../models");
 const Orders = db.orders;
 // const Notifications = db.notifications;
 const Products = db.products;
@@ -47,6 +48,7 @@ async function findAll(req, res) {
         order_transfer_image: data.order_transfer_image,
         order_delivery_price: data.order_delivery_price,
         order_price: data.order_price,
+        total_order_price:0,
         delivery_id: data.delivery_id,
         order_status: data.Order_Status.status_name,
         petani_id: data.Order_Details[0].Product.User.id,
@@ -60,6 +62,7 @@ async function findAll(req, res) {
     
     
     ord_detail = data.Order_Details;
+    let sum_order = 0;
     ord_detail.forEach((data)=>{
       response[num_loop].product_order.push({
         product_name:data.Product.product_name,
@@ -67,8 +70,11 @@ async function findAll(req, res) {
         product_image:data.Product.product_image,
         order_qty:data.order_detail_qty,
       })
+      sum_order += data.Product.product_price*data.order_detail_qty 
     })
-    
+
+    response[num_loop].total_order_price = sum_order + data.order_delivery_price
+  
     num_loop += 1;
   }
   });
@@ -112,6 +118,7 @@ async function findAllSellerOrder(req, res) {
         order_transfer_image: data.order_transfer_image,
         order_delivery_price: data.order_delivery_price,
         order_price: data.order_price,
+        total_order_price:0,
         delivery_id: data.delivery_id,
         order_status: data.Order_Status.status_name,
         pasar_id: data.User.id,
@@ -125,6 +132,7 @@ async function findAllSellerOrder(req, res) {
     
     
     ord_detail = data.Order_Details;
+    let sum_order = 0;
     ord_detail.forEach((data)=>{
       response[num_loop].product_order.push({
         product_name:data.Product.product_name,
@@ -132,7 +140,10 @@ async function findAllSellerOrder(req, res) {
         product_image:data.Product.product_image,
         order_qty:data.order_detail_qty,
       })
+      sum_order += data.Product.product_price*data.order_detail_qty 
     })
+
+    response[num_loop].total_order_price = sum_order + data.order_delivery_price
     
     num_loop += 1;
     }
@@ -234,6 +245,21 @@ async function insertOrderDetail(req, res) {
 }
 
 async function updateStatus(req, res) {
+  // const orders = await Orders.findAll({
+  //   include: [
+  //     {
+  //       model: Order_Details, 
+  //       include: [{
+  //         model: Products,
+  //       }]
+  //     },
+  //   ],
+  //   where: {
+  //     id:req.params.id,
+  //   },
+  //   order: [['createdAt', 'DESC']],
+  // })
+  
   const checkIfOrderExist = await Orders.findByPk(req.params.id);
   if (checkIfOrderExist) {
     const order = {
@@ -318,6 +344,7 @@ async function updateStatus(req, res) {
         }
       }
     }
+
     else if(order.status_id==5){
       notificationPasar = {
         notification_title:"Yahh pesananmu di batalkan :(",
@@ -364,8 +391,22 @@ async function updateDeliveryPrice(req, res) {
 }
 
 async function updateOrderTransfer(req, res) {
-  const checkIfOrderExist = await Orders.findByPk(req.params.id);
-  if (checkIfOrderExist) {
+  const orders = await Orders.findAll({
+    include: [
+      {
+        model: Order_Details, 
+        include: [{
+          model: Products,
+        }]
+      },
+    ],
+    where: {
+      id:req.params.id,
+    },
+    order: [['createdAt', 'DESC']],
+  })
+
+  if (orders) {
     const uploadFoto = await cloudinaryConf.uploader.upload(
       req.files.order_transfer_image.path, 
       {folder: "rumah-tani/transfer-image"}
@@ -393,7 +434,7 @@ async function updateOrderTransfer(req, res) {
       notification_desc:"Cek nominal transaksi dan segera kirim pesanan",
       notification_link:"/transaction",
       mark_as_read: false,
-      user_id: req.fields.user_id,
+      user_id: orders[0].Order_Details[0].Product.user_id,
     }
 
     
@@ -401,7 +442,7 @@ async function updateOrderTransfer(req, res) {
     await Notification.create(notificationPetani);
     
     res.send({
-      message: `Bukti transfer berhasil di upload`,
+      message: `Bukti transfer berhasil di upload `,
     });
   } else {
     res.send({

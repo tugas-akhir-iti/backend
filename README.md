@@ -7,12 +7,12 @@ Jaenulatif Pudin
 
 Before run, install package:
 ```bash
-yarn install
+npm install
 ```
 
 Run the development server:
 ```bash
-yarn dev
+npm start
 ```
 
 ## Learn More
